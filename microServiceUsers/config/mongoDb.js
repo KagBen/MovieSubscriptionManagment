@@ -8,7 +8,7 @@ const connectDb = () => {
     .connect(mongoDbPath)
     .then(console.log("Connected to MongoDB server at " + mongoDbPath))
     .catch((err) => {
-      console.log("Failed to connect to MongoDB server dut to : " + err);
+      throw new Error({message : `Failed to connect to MongoDB server dut to :  + ${err}`});
     });
 };
 
