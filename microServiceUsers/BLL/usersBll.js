@@ -1,9 +1,10 @@
 const user = require("../Module/UserModel");
-
-const initializedAdmin = () => {
+require("dotenv").config();
+const bcrypt = require("../utils/bcrypt");
+const initializedAdmin = async () => {
   const admin = {
     username: "Admin1",
-    password: "123456",
+    password: await bcrypt.hashPassword(process.env.ADMIN_PASSWORD),
     role: "admin",
     sessionTimeOut: Infinity, //in minutes,
     createdDate: Date.now(),
@@ -25,5 +26,4 @@ const initializedAdmin = () => {
   }
 };
 
-
-module.exports = {initializedAdmin};
+module.exports = { initializedAdmin };
