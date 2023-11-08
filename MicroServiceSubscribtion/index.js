@@ -1,9 +1,9 @@
 const express = require("express")
 require("dotenv").config()
 const cors = require('cors')
-const ConnectDB = require("./Config/ConectDB.js")
-const port = process.env.PORT || 3002
-
+const ConnectDB = require("./Config/ConnectDB.js")
+const port = process.env.PORT || 3002 //create env ... "3002"
+ 
 const app = express()
 
 ConnectDB()
