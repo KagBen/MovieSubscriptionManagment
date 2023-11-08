@@ -27,7 +27,7 @@ const initializedAdmin = async () => {
   }
 };
 
-const addUser = async(userObj) => {
+const addUser = async (userObj) => {
   const newUser = new User(userObj);
 
   if (!newUser.username) {
@@ -42,10 +42,8 @@ const addUser = async(userObj) => {
     throw new Error({ message: "Invalid sessionTimeOut" });
   }
   await newUser.save();
-  return {user:userObj,message:"user added successfully"}
+  return { user: userObj, message: "user added successfully" };
 };
-
-
 
 const updateUser = async (userId, updateFields) => {
   try {
@@ -58,22 +56,43 @@ const updateUser = async (userId, updateFields) => {
 
     if (!updatedUser) {
       // Handle the case when the user with the given userId is not found
-      throw new Error({message:"User not found"});
+      throw new Error({ message: "User not found" });
     }
 
-    return {user:updatedUser,message:"user updated successfully"};
+    return { user: updatedUser, message: "user updated successfully" };
   } catch (error) {
     // Handle errors, such as validation errors or other issues
-    throw new Error({message: error.message});
+    throw new Error({ message: error.message });
   }
 };
 
-const delUser = async(userId) => { 
-
+const deleteUser = async (userId) => {
   await User.findOneAndDelete(userId);
- return {userId:userId , message: "User deleted successfully"};
+  return { userId: userId, message: "User deleted successfully" };
+};
 
-}
+const getAllUsers = async () => {
+  const allUsers = await User.find();
+  return allUsers;
+};
+//userLoginInfo - handle three fields _id , username, and password
+const registerUser = async (userLoginInfo) => {
+  try {
+    const hashedPassword = await bcrypt.hashPassword(userLoginInfo.password);
+    const res = await updateUser(userLoginInfo.id, {
+      password: hashedPassword,
+    });
+    return res;
+  } catch (error) {
+    throw new Error({ message: error.message });
+  }
+};
 
-
-module.exports = { initializedAdmin };
+module.exports = {
+  initializedAdmin,
+  getAllUsers,
+  addUser,
+  deleteUser,
+  updateUser,
+  registerUser,
+};
