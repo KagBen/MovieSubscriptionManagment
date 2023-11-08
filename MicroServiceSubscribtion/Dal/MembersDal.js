@@ -1,5 +1,5 @@
 const axios = require("axios")
-const Member = require("../Models/Members");
+const Member = require("../Models/MemberModel");
 const MembersUrl = `https://jsonplaceholder.typicode.com/users`
 
 const GetMembers = async () => {
