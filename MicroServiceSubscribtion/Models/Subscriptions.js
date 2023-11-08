@@ -1,0 +1,13 @@
+const { ObjectId } = require("mongodb")
+const mongoose = require("mongoose")
+
+const subscriptionSchema = new mongoose.Schema({
+    MemberId: ObjectId,
+    Movies: [{MovieId : ObjectId, Date : Date}]
+}, {
+    versionKey: false
+})
+
+const Subscription = mongoose.model("subscription",  subscriptionSchema  , "subscriptions")
+
+module.exports = Subscription
