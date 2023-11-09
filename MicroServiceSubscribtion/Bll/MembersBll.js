@@ -15,7 +15,7 @@ const deleteMember = async (memberId) => {
     const subscriptionByMemberId =allSubscriptions.find(
       (subscription) => subscription.MemberId.toString() === memberId
     );
-    if (subscriptionByMemberId.length !=0) {
+    if (subscriptionByMemberId) {
       Subscription.findByIdAndDelete(subscriptionByMemberId._id);
     }
     Member.findByIdAndDelete(memberId);
