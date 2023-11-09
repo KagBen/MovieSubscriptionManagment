@@ -11,11 +11,11 @@ const getMemberById = async (memberId) => {
 
 const deleteMember = async (memberId) => {
   try {
-    const allSubscriptions = Subscription.find();
-    const subscriptionByMemberId = allSubscriptions.find(
+    const allSubscriptions =await Subscription.find();
+    const subscriptionByMemberId =allSubscriptions.find(
       (subscription) => subscription.MemberId.toString() === memberId
     );
-    if (subscriptionByMemberId) {
+    if (subscriptionByMemberId.length !=0) {
       Subscription.findByIdAndDelete(subscriptionByMemberId._id);
     }
     Member.findByIdAndDelete(memberId);
