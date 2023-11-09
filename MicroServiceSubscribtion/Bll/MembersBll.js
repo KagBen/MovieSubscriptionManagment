@@ -1,5 +1,5 @@
 const Member = require("../Models/MemberModel");
-
+const Subscription = require("../Models/Subscriptions");
 const getMembers = async () => {
   return Member.find();
 };
@@ -9,15 +9,22 @@ const getMemberById = async (memberId) => {
 };
 
 const deleteMember = async (memberId) => {
+  const allSubscriptions = Subscription.find();
+  const subscriptionByMemberId = allSubscriptions.find(
+    (subscription) => subscription.MemberId.toString() === memberId
+  );
+  if(subscriptionByMemberId)
+  {
+    Subscription.findByIdAndDelete(subscriptionByMemberId._id);
+  }
   Member.findByIdAndDelete(memberId);
   return "deleted";
 };
 
 const updateMember = async (memberId, updateFields) => {
   try {
-    if(updateFields.hasOwnProperty("Name") && updateFields.Name.length === 0 )
-    {
-        throw new Error("Error : Trying to update member with empty name");
+    if (updateFields.hasOwnProperty("Name") && updateFields.Name.length === 0) {
+      throw new Error("Error : Trying to update member with empty name");
     }
     const updateMember = Member.findOneAndUpdate(
       { _id: userId }, // Filter: Update the user with the specified userId
@@ -34,10 +41,16 @@ const updateMember = async (memberId, updateFields) => {
   }
 };
 
-const addMember = async(memberObj) => { 
-   const newMember = new Member(memberObj);
-   await newMember.save();
-   return newMember;
-}
+const addMember = async (memberObj) => {
+  const newMember = new Member(memberObj);
+  await newMember.save();
+  return newMember;
+};
 
-module.exports = {getMembers,getMemberById,deleteMember,updateMember ,addMember}
+module.exports = {
+  getMembers,
+  getMemberById,
+  deleteMember,
+  updateMember,
+  addMember,
+};
