@@ -56,7 +56,7 @@ const UpdateMovie = async (movieId, updateFields) => {
 };
 
 const DeleteMovie = (movieId) => {
-  return Movie.findByIdAndDelete(movieId);
+  Movie.findByIdAndDelete(movieId);
 };
 
 module.exports = {

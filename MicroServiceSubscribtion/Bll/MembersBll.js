@@ -9,16 +9,19 @@ const getMemberById = async (memberId) => {
 };
 
 const deleteMember = async (memberId) => {
-  const allSubscriptions = Subscription.find();
-  const subscriptionByMemberId = allSubscriptions.find(
-    (subscription) => subscription.MemberId.toString() === memberId
-  );
-  if(subscriptionByMemberId)
-  {
-    Subscription.findByIdAndDelete(subscriptionByMemberId._id);
+  try {
+    const allSubscriptions = Subscription.find();
+    const subscriptionByMemberId = allSubscriptions.find(
+      (subscription) => subscription.MemberId.toString() === memberId
+    );
+    if (subscriptionByMemberId) {
+      Subscription.findByIdAndDelete(subscriptionByMemberId._id);
+    }
+    Member.findByIdAndDelete(memberId);
+    return "deleted";
+  } catch (err) {
+    throw new Error(err.message);
   }
-  Member.findByIdAndDelete(memberId);
-  return "deleted";
 };
 
 const updateMember = async (memberId, updateFields) => {
