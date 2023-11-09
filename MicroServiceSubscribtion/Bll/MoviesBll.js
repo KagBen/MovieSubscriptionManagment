@@ -13,7 +13,7 @@ const AddMovie = async (movie) => {
   try {
     const NewMovie = new Movie(movie);
     NewMovie.save();
-    return "Add new movie successfully";
+    return NewMovie;
   } catch (error) {
     if (error.code === 11000 || error.code === 11001) {
       // Handle the duplicate key error here
