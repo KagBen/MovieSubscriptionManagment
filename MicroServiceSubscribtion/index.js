@@ -3,7 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const ConnectDB = require("./Config/ConnectDB.js");
 const port = process.env.PORT || 3002; //create env ... "3002"
-
+const memberRouter = require ("./Routers/MemberRouter.js")
 const Movies = require("./Dal/MoviesDal.js");
 const Members = require("./Dal/MembersDal.js");
 
@@ -14,6 +14,8 @@ ConnectDB();
 app.use(cors());
 app.use(express.json());
 
+//add here routers
+app.use("/members" , memberRouter)
 app.listen(port, async () => {
   await Movies.FillMovies(); // Fetch and save movies
   await Members.FillMembers(); // Fetch and save members
