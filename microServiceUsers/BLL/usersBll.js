@@ -4,9 +4,10 @@ const bcrypt = require("../utils/bcrypt");
 
 const initializedAdmin = async () => {
   try {
+    const adminPassword =process.env.ADMIN_PASSWORD || "123456"
     const admin = {
       username: "Admin1",
-      password: await bcrypt.hashPassword(process.env.ADMIN_PASSWORD),
+      password: await bcrypt.hashPassword(adminPassword),
       role: "admin",
       sessionTimeOut: Infinity, //in minutes,
       createdDate: Date.now(),
