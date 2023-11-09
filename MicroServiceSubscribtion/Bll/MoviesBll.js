@@ -56,19 +56,7 @@ const UpdateMovie = async (movieId, updateFields) => {
   }
 };
 
-const DeleteMovie = async (movieId) => {
-  try {
-    const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
-    if (movieSubscribers.length != 0) {
-      for (sub of movieSubscribers) {
-        subToUpdate = Subscription.findById(sub.subscriptionId);
-      }
-    }
-    Movie.findByIdAndDelete(movieId);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
+
 
 const getAllMoviesSubscribersByMovieId = async (movieId) => {
   const allSubscriptions = await Subscription.find();
