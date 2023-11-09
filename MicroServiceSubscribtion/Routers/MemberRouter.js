@@ -48,7 +48,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const memberId = req.params.id;
     await memberBll.deleteMember(memberId);
-    res.status(200).send({ message: "Succefuly updated Member", memberId });
+    res.status(200).send({ message: "Succefuly deletes Member", memberId });
   } catch (err) {
     res.status(401).send(err.message);
   }
