@@ -18,7 +18,7 @@ const deleteMember = async (memberId) => {
     if (subscriptionByMemberId) {
       Subscription.findByIdAndDelete(subscriptionByMemberId._id);
     }
-    Member.findByIdAndDelete(memberId);
+    await Member.findByIdAndDelete(memberId);
     return "deleted";
   } catch (err) {
     throw new Error(err.message);
