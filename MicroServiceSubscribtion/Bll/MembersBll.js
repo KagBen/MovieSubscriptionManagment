@@ -26,9 +26,6 @@ const deleteMember = async (memberId) => {
 
 const updateMember = async (memberId, updateFields) => {
   try {
-    if (updateFields.hasOwnProperty("Name") && updateFields.Name.length === 0) {
-      throw new Error("Error : Trying to update member with empty name");
-    }
     const updateMember = Member.findOneAndUpdate(
       { _id: userId }, // Filter: Update the user with the specified userId
       { $set: updateFields }, // Update: Fields to be updated
