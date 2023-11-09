@@ -1,6 +1,6 @@
 const Subscription = require("../Models/Subscriptions");
 
-const addSubcription = async () => {};
+const addSubcription = async (subscription) => {};
 
 const updateSubscription = async (subscriptionId, updateFields) => {};
 
