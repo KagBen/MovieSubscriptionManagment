@@ -1,4 +1,5 @@
 const Movie = require("../Models/MovieModel");
+const Subscription = require("../Models/Subscriptions");
 
 const GetAllMovies = () => {
   return Movie.find();
@@ -59,10 +60,41 @@ const DeleteMovie = (movieId) => {
   Movie.findByIdAndDelete(movieId);
 };
 
+const getAllMoviesSubscribersByMovieId = async (movieId) => {
+  const allSubscriptions = await Subscription.find();
+  const membersAndDate = [];
+  for (sub of allSubscriptions) {
+    for (mov of sub.Movies) {
+      if (mov.movieId.toString() === movieId) {
+        membersAndDate.push({ MemberId: sub.MemberId, Date: mov.Date });
+      }
+    }
+  }
+  if (membersAndDate.length == 0) {
+    throw new Error(`no subscriptions for movie ${movieId}`);
+  } else {
+    return membersAndDate;
+  }
+};
+
+const getAllMoviesSubscribers = async () => {
+  const allMovies = await Movie.find();
+  const movieSubscribersArray = [];
+  for (mov of allMovies) {
+    const movSubscribers = await getAllMoviesSubscribersByMovieId(mov._id);
+    movieSubscribersArray.push({
+      movieId: mov.Id,
+      Subscribers: movSubscribers,
+    });
+  }
+  return movieSubscribersArray;
+};
 module.exports = {
+  getAllMoviesSubscribers,
   GetAllMovies,
   GetMovieById,
   AddMovie,
   UpdateMovie,
   DeleteMovie,
+  getAllMoviesSubscribersByMovieId,
 };
