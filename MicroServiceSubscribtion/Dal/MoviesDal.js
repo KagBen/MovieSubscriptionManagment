@@ -1,13 +1,14 @@
 const axios = require("axios");
-const Movie = require("../Models/Movies");
+const Movie = require("../Models/MovieModel");
 const MoviesUrl = `https://api.tvmaze.com/shows`;
 
-const GetAllMovies = async () => {
+const FillMovies = async () => {
   try {
     const resp = await axios.get(MoviesUrl);
-    const data = await resp.json;
 
     if (resp.status === 200) {
+      const data = await resp.data;
+
       for (const movie of data) {
         const { name, genres, image, premiered } = movie;
 
@@ -20,13 +21,12 @@ const GetAllMovies = async () => {
 
         await newMovie.save();
       }
-      console.log("All movies have been saved to the database.");
     } else {
-      throw new Error({ message: "Cannot get movies from url - " + MoviesUrl });
+      throw new Error("Cannot get movies from url - " + MoviesUrl);
     }
   } catch (error) {
-    throw new Error({ message: error.message });
+    throw new Error(error);
   }
 };
 
-module.exports = GetAllMovies;
+module.exports = { FillMovies };
