@@ -13,10 +13,29 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/MovieSubscribers", async (req, res) => {
-
+  try {
+    const movies = await MovieBll.getAllMoviesSubscribers();
+    res
+      .status(200)
+      .send({ message: "Succefuly get all movies subscribers", movies });
+  } catch (error) {
+    res.status(401).send({ message: error.message });
+  }
 });
+
 router.get("/MovieSubscribers/:movieId", async (req, res) => {
-  
+  try {
+    const movieId = req.params.movieId;
+    const subscribers = await MovieBll.getAllMoviesSubscribersByMovieId(
+      movieId
+    );
+    res.status(200).send({
+      message: "Succefuly get all subscribers by movie id",
+      subscribers,
+    });
+  } catch (error) {
+    res.status(401).send({ message: error.message });
+  }
 });
 
 router.get("/:id", async (req, res) => {
