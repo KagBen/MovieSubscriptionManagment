@@ -56,7 +56,32 @@ const UpdateMovie = async (movieId, updateFields) => {
   }
 };
 
-
+const DeleteMovie = async (movieId) => {
+  try {
+    const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
+    if (movieSubscribers.length != 0) {
+      for (sub of movieSubscribers) {
+        const subToUpdate = await Subscription.findById(sub.subscriptionId);
+        const MoviesUpdate = subToUpdate.Movies.filter(
+          (movie) => movie.MovieId.toString() !== movieId
+        );
+        const updatedSubscribtion = await Subscription.findOneAndUpdate(
+          { _id: sub._id }, // Filter: Update the user with the specified userId
+          { $set: { Movies: MoviesUpdate } }, // Update: Fields to be updated
+          { new: true } // Options: Return the updated user
+        );
+        if (!updatedSubscribtion) {
+          throw new Error(
+            "subsciption not found when try to update during delete movie from server"
+          );
+        }
+      }
+    }
+    Movie.findByIdAndDelete(movieId);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 const getAllMoviesSubscribersByMovieId = async (movieId) => {
   const allSubscriptions = await Subscription.find();
