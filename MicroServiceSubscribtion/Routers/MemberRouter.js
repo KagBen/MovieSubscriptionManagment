@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 router.get("/:memberId", async (req, res) => {
   try {
     const member = await memberBll.getMemberById(req.params.memberId);
-    res.status(200).send({ message: "Succefuly get All Members", member });
+    res.status(200).send({ message: "Succefuly get Member By id", member });
   } catch (err) {
     res.status(401).send(err.message);
   }
