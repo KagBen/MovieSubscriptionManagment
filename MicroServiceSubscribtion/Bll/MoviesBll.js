@@ -15,17 +15,8 @@ const AddMovie = async (movie) => {
     NewMovie.save();
     return NewMovie;
   } catch (error) {
-    if (error.code === 11000 || error.code === 11001) {
-      // Handle the duplicate key error here
-      console.error(
-        "Duplicate key error: A document with the same unique field value already exists."
-      );
-      // Perform custom actions or return a specific error response
-      throw new Error("Movie name already exists.");
-    } else {
-      // Handle other errors
-      throw new Error(error.message); // Re-throw other errors for higher-level handling
-    }
+    // Handle other errors
+    throw new Error(error.message); // Re-throw other errors for higher-level handling
   }
 };
 
@@ -44,15 +35,8 @@ const UpdateMovie = async (movieId, updateFields) => {
     }
     return updatedMovie;
   } catch (error) {
-    if (error.code === 11000 || error.code === 11001) {
-      // Handle the duplicate key error
-      throw new Error(
-        "Duplicate key error: The provided data conflicts with existing data."
-      );
-    } else {
-      // Handle other errors, such as validation errors or other issues
-      throw new Error(error.message);
-    }
+    // Handle other errors, such as validation errors or other issues
+    throw new Error(error.message);
   }
 };
 
@@ -60,7 +44,7 @@ const DeleteMovie = async (movieId) => {
   try {
     const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
     if (movieSubscribers.length != 0) {
-      for (sub of movieSubscribers) {
+      for (const sub of movieSubscribers) {
         const subToUpdate = await Subscription.findById(sub.subscriptionId);
         const MoviesUpdate = subToUpdate.Movies.filter(
           (movie) => movie.MovieId.toString() !== movieId
@@ -86,9 +70,9 @@ const DeleteMovie = async (movieId) => {
 const getAllMoviesSubscribersByMovieId = async (movieId) => {
   const allSubscriptions = await Subscription.find();
   const membersDateSubscription = [];
-  for (sub of allSubscriptions) {
-    for (mov of sub.Movies) {
-      if (mov.movieId.toString() === movieId) {
+  for (const sub of allSubscriptions) {
+    for (const mov of sub.Movies) {
+      if (mov.MovieId.toString() === movieId) {
         membersAndDate.push({
           MemberId: sub.MemberId,
           Date: mov.Date,
@@ -107,10 +91,10 @@ const getAllMoviesSubscribersByMovieId = async (movieId) => {
 const getAllMoviesSubscribers = async () => {
   const allMovies = await Movie.find();
   const movieSubscribersArray = [];
-  for (mov of allMovies) {
+  for (const mov of allMovies) {
     const movSubscribers = await getAllMoviesSubscribersByMovieId(mov._id);
     movieSubscribersArray.push({
-      movieId: mov.Id,
+      movieId: mov._id,
       Subscribers: movSubscribers,
     });
   }
