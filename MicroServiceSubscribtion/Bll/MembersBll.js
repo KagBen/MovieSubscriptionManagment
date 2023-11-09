@@ -28,7 +28,7 @@ const deleteMember = async (memberId) => {
 const updateMember = async (memberId, updateFields) => {
   try {
     const updateMember = Member.findOneAndUpdate(
-      { _id: userId }, // Filter: Update the user with the specified userId
+      { _id: memberId,}, // Filter: Update the user with the specified userId
       { $set: updateFields }, // Update: Fields to be updated
       { new: true }
     );
