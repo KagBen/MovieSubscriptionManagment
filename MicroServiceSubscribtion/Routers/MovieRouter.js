@@ -12,6 +12,13 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/MovieSubscribers", async (req, res) => {
+
+});
+router.get("/MovieSubscribers/:movieId", async (req, res) => {
+  
+});
+
 router.get("/:id", async (req, res) => {
   try {
     const movieId = req.params.id;
@@ -24,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newMovie = req.params.body;
+    const newMovie = req.body.MovieObj;
     const movie = await MovieBll.AddMovie(newMovie);
     res.status(200).send({ message: "Succefuly add new movie", movie });
   } catch (error) {
@@ -35,7 +42,7 @@ router.post("/", async (req, res) => {
 router.patch("/:id", async (req, res) => {
   try {
     const movieId = req.params.id;
-    const movieToUpdate = req.params.body;
+    const movieToUpdate = req.body.MovieObj;
     const movie = await MovieBll.UpdateMovie(movieId, movieToUpdate);
     res.status(200).send({ message: "Succefuly update movie", movie });
   } catch (error) {
@@ -46,8 +53,8 @@ router.patch("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const movieId = req.params.id;
-    const deleteMovie = await MovieBll.DeleteMovie(movieId);
-    res.status(200).send({ message: "Succefuly delete movie", deleteMovie });
+    await MovieBll.DeleteMovie(movieId);
+    res.status(200).send({ message: "Succefuly delete movie", movieId });
   } catch (error) {
     res.status(401).send({ message: error.message });
   }
