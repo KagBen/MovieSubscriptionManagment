@@ -71,10 +71,12 @@ const getAllSubscriptions = async () => {
         $group: {
           _id: "$_id",
           memberInfo: {
-            id: { $first: "$memberInfo._id" },
-            name: { $first: "$memberInfo.Name" },
-            email: { $first: "$memberInfo.Email" },
-            city: { $first: "$memberInfo.City" },
+            $first: {
+              id: "$memberInfo._id",
+              name: "$memberInfo.Name",
+              email: "$memberInfo.Email",
+              city: "$memberInfo.City",
+            },
           },
           subscriptionId: { $first: "$_id" },
           movies: {
@@ -97,6 +99,7 @@ const getAllSubscriptions = async () => {
     throw new Error(error.message);
   }
 };
+
 
 const getSubscriptionByMemberId = async (memberId) => {
   const allSubscriptions = await getAllSubscriptions();
