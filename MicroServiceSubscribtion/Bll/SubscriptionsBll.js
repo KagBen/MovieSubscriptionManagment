@@ -1,9 +1,22 @@
 const Subscription = require("../Models/Subscriptions");
 
 const addSubcription = async (subscriptionObj) => {
-  const newSubscription = new Subscription(subscriptionObj);
-  newSubscription.save();
-  return newSubscription;
+  try {
+    const newSubscription = new Subscription(subscriptionObj);
+    newSubscription.save();
+    return newSubscription;
+  } catch (error) {
+    if (error.code === 11000 || error.code === 11001) {
+      console.error(
+        "Duplicate key error: A document with the same unique field value already exists."
+      );
+      throw new Error(
+        `MemberId ${subscriptionObj.MemberId} already have subscription`
+      );
+    } else {
+      throw new Error(error.message);
+    }
+  }
 };
 
 const updateSubscription = async (subscriptionId, updateFields) => {
@@ -112,6 +125,7 @@ const getAllMoviesSubscribersByMovieId = async (movieId) => {
     return membersAndDate;
   }
 };
+
 const deleteSubscription = async (subscriptionId) => {
   await Subscription.findByIdAndDelete(subscriptionId);
   return "delete subscription";
