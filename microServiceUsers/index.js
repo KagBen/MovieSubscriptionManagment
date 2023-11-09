@@ -47,7 +47,7 @@ app.get("/users", async (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *              $ref: '#/userSchema.json'
  *     responses:
  *       200:
  *         description: Success. Returns the added user.
