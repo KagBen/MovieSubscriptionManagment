@@ -25,7 +25,7 @@ const FillMovies = async () => {
       throw new Error("Cannot get movies from url - " + MoviesUrl);
     }
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
 
