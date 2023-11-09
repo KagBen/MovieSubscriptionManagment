@@ -29,20 +29,33 @@ const initializedAdmin = async () => {
 
 const addUser = async (userObj) => {
   const newUser = new User(userObj);
-
-  if (!newUser.username) {
-    // Handle missing required fields
-    throw new Error({ message: "missing username - username is mandatory!" });
+  try {
+    if (!newUser.username) {
+      // Handle missing required fields
+      throw new Error({ message: "missing username - username is mandatory!" });
+    }
+    if (
+      typeof newUser.sessionTimeOut !== "number" ||
+      newUser.sessionTimeOut <= 0
+    ) {
+      // Handle invalid sessionTimeOut
+      throw new Error({ message: "Invalid sessionTimeOut" });
+    }
+    await newUser.save();
+    return { user: userObj, message: "user added successfully" };
+  } catch (error) {
+    if (error.code === 11000 || error.code === 11001) {
+      // Handle the duplicate key error here
+      console.error(
+        "Duplicate key error: A document with the same unique field value already exists."
+      );
+      // Perform custom actions or return a specific error response
+      throw new Error({ message: "Username or key already exists." });
+    } else {
+      // Handle other errors
+      throw new Error({ message: error.message }); // Re-throw other errors for higher-level handling
+    }
   }
-  if (
-    typeof newUser.sessionTimeOut !== "number" ||
-    newUser.sessionTimeOut <= 0
-  ) {
-    // Handle invalid sessionTimeOut
-    throw new Error({ message: "Invalid sessionTimeOut" });
-  }
-  await newUser.save();
-  return { user: userObj, message: "user added successfully" };
 };
 
 const updateUser = async (userId, updateFields) => {
@@ -72,7 +85,7 @@ const deleteUser = async (userId) => {
 };
 
 const getAllUsers = async () => {
-  const allUsers = await User.find();
+  const allUsers = await User.find().select('-password');
   return allUsers;
 };
 //userLoginInfo - handle three fields _id , username, and password
@@ -85,6 +98,27 @@ const registerUser = async (userLoginInfo) => {
     return res;
   } catch (error) {
     throw new Error({ message: error.message });
+  }
+};
+
+const loginUser = async (userLoginInfo) => {
+  const allUsers = await User.find(); //
+  // do find because sure that there only one user with spcific username
+  const userByUsername = allUsers.find(
+    (user) => user.username === userLoginInfo.username
+  );
+  if (!userByUsername) {
+    throw new Error({ message: `user ${userLoginInfo.username} not found` });
+  }
+  //after username is exist now testing the password for correctness
+  const _isPasswordVerified = await bcrypt.verifyPassword(
+    userLoginInfo.password,
+    userByUsername.password
+  );
+  if (!_isPasswordVerified) {
+    throw new Error({ message: "Wrong password , please try again" });
+  } else {
+    return userByUsername;
   }
 };
 

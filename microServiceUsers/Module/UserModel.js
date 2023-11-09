@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    username : String ,
+    username : {
+        type: String,
+        unique: true, // Set the field as unique
+        required: true, // You can also make it required if needed
+      }, 
     password : String, 
     role:String,
     sessionTimeOut:Number ,//in minutes,
