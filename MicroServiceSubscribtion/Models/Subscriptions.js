@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const subscriptionSchema = new mongoose.Schema(
   {
-    MemberId: Schema.Types.ObjectId,
+    MemberId:{ type:Schema.Types.ObjectId, required: true},
     Movies: [{ MovieId: Schema.Types.ObjectId, Date: Date }],
   },
   {
