@@ -62,18 +62,22 @@ const DeleteMovie = (movieId) => {
 
 const getAllMoviesSubscribersByMovieId = async (movieId) => {
   const allSubscriptions = await Subscription.find();
-  const membersAndDate = [];
+  const membersDateSubscription = [];
   for (sub of allSubscriptions) {
     for (mov of sub.Movies) {
       if (mov.movieId.toString() === movieId) {
-        membersAndDate.push({ MemberId: sub.MemberId, Date: mov.Date });
+        membersAndDate.push({
+          MemberId: sub.MemberId,
+          Date: mov.Date,
+          subscriptionId: sub._id,
+        });
       }
     }
   }
-  if (membersAndDate.length == 0) {
+  if (membersDateSubscription.length == 0) {
     throw new Error(`no subscriptions for movie ${movieId}`);
   } else {
-    return membersAndDate;
+    return membersDateSubscription;
   }
 };
 
