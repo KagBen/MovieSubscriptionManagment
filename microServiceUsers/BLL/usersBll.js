@@ -23,23 +23,23 @@ const initializedAdmin = async () => {
     const setAdmin = new User(admin);
     await setAdmin.save();
   } catch (error) {
-    throw new Error({ message: "error.message" });
+    throw new Error(error.message);
   }
 };
-
+//app.post
 const addUser = async (userObj) => {
   const newUser = new User(userObj);
   try {
     if (!newUser.username) {
       // Handle missing required fields
-      throw new Error({ message: "missing username - username is mandatory!" });
+      throw new Error("missing username - username is mandatory!");
     }
     if (
       typeof newUser.sessionTimeOut !== "number" ||
       newUser.sessionTimeOut <= 0
     ) {
       // Handle invalid sessionTimeOut
-      throw new Error({ message: "Invalid sessionTimeOut" });
+      throw new Error("Invalid sessionTimeOut");
     }
     await newUser.save();
     return { user: userObj, message: "user added successfully" };
@@ -50,14 +50,14 @@ const addUser = async (userObj) => {
         "Duplicate key error: A document with the same unique field value already exists."
       );
       // Perform custom actions or return a specific error response
-      throw new Error({ message: "Username or key already exists." });
+      throw new Error("Username or key already exists.");
     } else {
       // Handle other errors
-      throw new Error({ message: error.message }); // Re-throw other errors for higher-level handling
+      throw new Error(error.message); // Re-throw other errors for higher-level handling
     }
   }
 };
-
+//app . patch
 const updateUser = async (userId, updateFields) => {
   try {
     // Use the findOneAndUpdate method to update a user by their ID
@@ -69,35 +69,54 @@ const updateUser = async (userId, updateFields) => {
 
     if (!updatedUser) {
       // Handle the case when the user with the given userId is not found
-      throw new Error({ message: "User not found" });
+      throw new Error("User not found");
     }
 
     return { user: updatedUser, message: "user updated successfully" };
   } catch (error) {
-    // Handle errors, such as validation errors or other issues
-    throw new Error({ message: error.message });
+    if (error.code === 11000 || error.code === 11001) {
+      // Handle the duplicate key error
+      throw new Error(
+        "Duplicate key error: The provided data conflicts with existing data."
+      );
+    } else {
+      // Handle other errors, such as validation errors or other issues
+      throw new Error(error.message);
+    }
   }
 };
-
+//app.delete
 const deleteUser = async (userId) => {
   await User.findOneAndDelete(userId);
   return { userId: userId, message: "User deleted successfully" };
 };
-
+//app.get
 const getAllUsers = async () => {
-  const allUsers = await User.find().select('-password');
+  const allUsers = await User.find().select("-password");
   return allUsers;
 };
-//userLoginInfo - handle three fields _id , username, and password
+//userLoginInfo - handle three fields  username, and password
 const registerUser = async (userLoginInfo) => {
   try {
+    // Checking if admin already set the user... (if not - can't register user)
+    const allUsers = await User.find();
+    const userByUsername = allUsers.find(
+      (user) => user.username === userLoginInfo.username
+    );
+
+    if (!userByUsername) {
+      throw new Error(`User ${userLoginInfo.username} not found`);
+    }
+
     const hashedPassword = await bcrypt.hashPassword(userLoginInfo.password);
-    const res = await updateUser(userLoginInfo.id, {
+    const res = await updateUser(userByUsername._id, {
       password: hashedPassword,
     });
+
     return res;
   } catch (error) {
-    throw new Error({ message: error.message });
+    console.error(`Error in registerUser: ${error.message}`);
+    throw new Error(`Registration failed: ${error.message}`);
   }
 };
 
@@ -108,7 +127,7 @@ const loginUser = async (userLoginInfo) => {
     (user) => user.username === userLoginInfo.username
   );
   if (!userByUsername) {
-    throw new Error({ message: `user ${userLoginInfo.username} not found` });
+    throw new Error(`user ${userLoginInfo.username} not found`);
   }
   //after username is exist now testing the password for correctness
   const _isPasswordVerified = await bcrypt.verifyPassword(
@@ -116,7 +135,7 @@ const loginUser = async (userLoginInfo) => {
     userByUsername.password
   );
   if (!_isPasswordVerified) {
-    throw new Error({ message: "Wrong password , please try again" });
+    throw new Error("Wrong password , please try again");
   } else {
     return userByUsername;
   }
@@ -129,4 +148,5 @@ module.exports = {
   deleteUser,
   updateUser,
   registerUser,
+  loginUser,
 };
