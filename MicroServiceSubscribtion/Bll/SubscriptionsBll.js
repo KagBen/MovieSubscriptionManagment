@@ -3,7 +3,7 @@ const Subscription = require("../Models/Subscriptions");
 const addSubcription = async (subscriptionObj) => {
   try {
     const newSubscription = new Subscription(subscriptionObj);
-    newSubscription.save();
+    await newSubscription.save();
     return newSubscription;
   } catch (error) {
     if (error.code === 11000 || error.code === 11001) {

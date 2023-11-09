@@ -12,7 +12,7 @@ const GetMovieById = (id) => {
 const AddMovie = async (movie) => {
   try {
     const NewMovie = new Movie(movie);
-    NewMovie.save();
+    await NewMovie.save();
     return NewMovie;
   } catch (error) {
     // Handle other errors
