@@ -5,7 +5,8 @@ const getMembers = async () => {
 };
 
 const getMemberById = async (memberId) => {
-  return Member.findById(memberId);
+  const member = await Member.findById(memberId);
+  return member;
 };
 
 const deleteMember = async (memberId) => {
