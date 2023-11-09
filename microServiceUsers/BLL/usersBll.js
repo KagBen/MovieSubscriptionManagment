@@ -42,7 +42,7 @@ const addUser = async (userObj) => {
       throw new Error("Invalid sessionTimeOut");
     }
     await newUser.save();
-    return { user: userObj, message: "user added successfully" };
+    return userObj;
   } catch (error) {
     if (error.code === 11000 || error.code === 11001) {
       // Handle the duplicate key error here
@@ -72,7 +72,7 @@ const updateUser = async (userId, updateFields) => {
       throw new Error("User not found");
     }
 
-    return { user: updatedUser, message: "user updated successfully" };
+    return updatedUser;
   } catch (error) {
     if (error.code === 11000 || error.code === 11001) {
       // Handle the duplicate key error
@@ -88,7 +88,7 @@ const updateUser = async (userId, updateFields) => {
 //app.delete
 const deleteUser = async (userId) => {
   await User.findOneAndDelete(userId);
-  return { userId: userId, message: "User deleted successfully" };
+  return userId;
 };
 //app.get
 const getAllUsers = async () => {
