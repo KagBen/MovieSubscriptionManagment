@@ -4,8 +4,8 @@ const cors = require("cors");
 const ConnectDB = require("./Config/ConnectDB.js");
 const port = process.env.PORT || 3002; //create env ... "3002"
 const MemberRouter = require("./Routers/MemberRouter.js");
-const MoviesRouter = require("./Routers/MoviesRouter.js");
-const SubscriptionsRouter = require("./Routers/SubscriptionsRouter.js");
+const MoviesRouter = require("./Routers/MovieRouter.js");
+const SubscriptionsRouter = require("./Routers/SubscriptionRouter.js");
 const Movies = require("./Dal/MoviesDal.js");
 const Members = require("./Dal/MembersDal.js");
 

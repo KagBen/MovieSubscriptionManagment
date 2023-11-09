@@ -1,4 +1,4 @@
-const MovieBll = reqiure("../Bll/MoviesBll.js");
+const MovieBll = require("../Bll/MoviesBll.js");
 const express = require("express");
 
 const router = express.Router();
