@@ -61,7 +61,7 @@ const DeleteMovie = async (movieId) => {
         }
       }
     }
-   await Movie.findByIdAndDelete(movieId);
+    await Movie.findByIdAndDelete(movieId);
   } catch (error) {
     throw new Error(error.message);
   }
