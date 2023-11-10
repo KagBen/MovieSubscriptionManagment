@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const msUsersRouter = express.Router();
 const expressHttpProxy = require("express-http-proxy");
 const userMs = "http://localhost:3001";
+const isAdmin = require("../middlewears/isAdmin")
 
 msUsersRouter.post("/login", async (req, res) => {
   try {
@@ -19,7 +20,6 @@ msUsersRouter.post("/login", async (req, res) => {
           { user: userResponse.data.user },
           process.env.JWT_ACCESS_SECRET_TOKEN
         );
-
         req.session.cookie.maxAge = null;
       } else {
         // If sessionTimeOut is a valid value, set expiration to that value in minutes
@@ -46,13 +46,19 @@ msUsersRouter.post("/login", async (req, res) => {
       res.status(401).send(err.response.data);
     } else {
       // Handle the case where err.response or err.response.data is undefined
-      res.status(401).send({ message: "Unauthorized", detailedError: {} });
+      res.status(401).send({ message: err.message});
     }
   }
 });
 
 msUsersRouter.get("/logout", async (req, res) => {
-  req.session.destroy();
+  try{
+    req.session.destroy();
+    res.status(200).send("logout successful");
+  }
+catch (err) {
+  res.status(401).send({ message: err.message});
+}
 });
 
 const apiProxy = expressHttpProxy(userMs, {
@@ -72,11 +78,11 @@ const apiProxy = expressHttpProxy(userMs, {
   },
 });
 
-msUsersRouter.get("/", apiProxy);
+msUsersRouter.get("/", isAdmin ,apiProxy);
 msUsersRouter.patch("/register", apiProxy);
-msUsersRouter.delete("/:userId", apiProxy);
+msUsersRouter.delete("/:userId",isAdmin, apiProxy);
 msUsersRouter.patch("/:userId", apiProxy);
-msUsersRouter.post("/addUser", apiProxy);
+msUsersRouter.post("/addUser", isAdmin ,apiProxy);
 
 
 module.exports = msUsersRouter;
