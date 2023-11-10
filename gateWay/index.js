@@ -1,15 +1,19 @@
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 const msUsersRouter = require("./Routers/userMsRouter");
 const msMembersRouter = require("./Routers/membersSubMsRouter");
 const msMoviesRouter = require("./Routers/moviesSubMsRouter");
 const msSubscriptionsRouter = require("./Routers/subscriptionsSubMsRouter");
 const jwtVerify = require("./middlewears/jwtVerify");
+const swaggerOptions = require('./config/swaggerConfig');
 require("dotenv").config();
 
 const gatewayApp = express();
-
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+gatewayApp.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 gatewayApp.use(express.json());
 gatewayApp.use(cors());
 gatewayApp.use(

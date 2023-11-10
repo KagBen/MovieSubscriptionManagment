@@ -1,6 +1,7 @@
 const permissionValidate = (param) => {
     return (req, res, next) => {
       const permissions = req.session.permissions || []; // Ensure permissions is an array
+      console.log(req.session)
       const found = permissions.some((p) => p === param);
       if (!found) {
         return res.status(401).json({

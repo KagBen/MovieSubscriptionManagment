@@ -1,11 +1,16 @@
 const express = require("express");
 require("dotenv").config();
 const expressHttpProxy = require("express-http-proxy");
-const permissions = require("../middlewears/permissions");
+const permissions = require("../middlewears/permissionValidate");
 
 const msSubsctiptionRouter = express.Router();
 const SubsctiptionMs = "http://localhost:3002";
-
+/**
+ * @openapi
+ * tags:
+ *   name: Subsctription
+ *   description: API for managing subscriptions - microservice 2
+ */
 const apiProxy = expressHttpProxy(SubsctiptionMs, {
   parseReqBody: true,
   proxyReqPathResolver: (req) => {
