@@ -128,6 +128,7 @@ const registerUser = async (userLoginInfo) => {
 };
 
 const loginUser = async (userLoginInfo) => {
+
   const allUsers = await User.find(); //
   // do find because sure that there only one user with spcific username
   const userByUsername = allUsers.find(

@@ -101,6 +101,42 @@ app.post("/users/login", async (req, res) => {
     res.status(401).send({ message: error.message });
   }
 });
+//register as update
+/**
+ * @openapi
+ * /users/register:
+ *   patch:
+ *     summary: Register a user
+ *     description: Register a new user by providing a username and password.
+ *     requestBody:
+ *       description: User registration information.
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserRegisterInfo'
+ *     responses:
+ *       200:
+ *         description: Registration successful. Returns the registered user.
+ *       400:
+ *          description: Bad Request. Missing information.
+ *       401:
+ *         description: something went Wrong.
+ */
+app.patch("/users/register", async (req, res) => {
+  // Handle register user
+  try {
+    const { username, password } = req.body.userRegisterInfo || {};
+    if (!username || !password) {
+      return res
+        .status(400)
+        .send({ message: "Username and password are required for register" });
+    }
+    const user = await userBll.registerUser({ username, password });
+    res.status(200).send({ message: "Register successful", user });
+  } catch (error) {
+    res.status(401).send({ message: error.message });
+  }
+});
 
 /**
  * @openapi
@@ -147,42 +183,6 @@ app.patch("/users/:userId", async (req, res) => {
   }
 });
 
-//register as update
-/**
- * @openapi
- * /users/register:
- *   patch:
- *     summary: Register a user
- *     description: Register a new user by providing a username and password.
- *     requestBody:
- *       description: User registration information.
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/UserRegisterInfo'
- *     responses:
- *       200:
- *         description: Registration successful. Returns the registered user.
- *       400:
- *          description: Bad Request. Missing information.
- *       401:
- *         description: something went Wrong.
- */
-app.patch("/users/register", async (req, res) => {
-  // Handle register user
-  try {
-    const { username, password } = req.body.userRegisterInfo || {};
-    if (!username || !password) {
-      return res
-        .status(400)
-        .send({ message: "Username and password are required for register" });
-    }
-    const user = await userBll.registerUser({ username, password });
-    res.status(200).send({ message: "Register successful", user });
-  } catch (error) {
-    res.status(401).send({ message: error.message });
-  }
-});
 
 /**
  * @openapi
