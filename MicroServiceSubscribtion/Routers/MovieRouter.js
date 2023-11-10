@@ -29,7 +29,7 @@ router.get("/MovieSubscribers/:movieId", async (req, res) => {
     const subscribers = await MovieBll.getAllMoviesSubscribersByMovieId(
       movieId
     );
-   
+
     res.status(200).send({
       message: "Succefuly get all subscribers by movie id",
       subscribers,
@@ -41,7 +41,6 @@ router.get("/MovieSubscribers/:movieId", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-   
     const movieId = req.params.id;
     const movie = await MovieBll.GetMovieById(movieId);
     res.status(200).send({ message: "Succefuly get movie by id", movie });
@@ -62,7 +61,6 @@ router.post("/", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   try {
-   
     const movieId = req.params.id;
     const movieToUpdate = req.body.MovieObj;
     const movie = await MovieBll.UpdateMovie(movieId, movieToUpdate);
