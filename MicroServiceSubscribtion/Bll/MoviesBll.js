@@ -1,6 +1,6 @@
 const Movie = require("../Models/MovieModel");
 const Subscription = require("../Models/Subscriptions");
-
+const Member = require("../Models/MemberModel");
 const GetAllMovies = () => {
   return Movie.find();
 };
@@ -44,7 +44,7 @@ const DeleteMovie = async (movieId) => {
   try {
     const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
     if (movieSubscribers.length != 0) {
-      console.log(movieSubscribers)
+      console.log(movieSubscribers);
       for (const sub of movieSubscribers) {
         const subToUpdate = await Subscription.findById(sub.subscriptionId);
         const MoviesUpdate = subToUpdate.Movies.filter(
@@ -55,7 +55,7 @@ const DeleteMovie = async (movieId) => {
           { $set: { Movies: MoviesUpdate } }, // Update: Fields to be updated
           { new: true } // Options: Return the updated user
         );
-        console.log(updatedSubscribtion)
+        console.log(updatedSubscribtion);
         if (!updatedSubscribtion) {
           throw new Error(
             "subsciption not found when try to update during delete movie from server"
@@ -69,14 +69,20 @@ const DeleteMovie = async (movieId) => {
   }
 };
 
-const getAllMoviesSubscribersByMovieId = async (movieId) => {
+const getAllMoviesSubscribersByMovieId = async (
+  movieId,
+  _cameFromServer = false
+) => {
+  mId = _cameFromServer ? movieId.toString() : movieId;
   const allSubscriptions = await Subscription.find();
   const membersDateSubscription = [];
   for (const sub of allSubscriptions) {
     for (const mov of sub.Movies) {
-      if (mov.MovieId.toString() === movieId) {
+      if (mov.MovieId.toString() === mId) {
+        const MemberInfo = await Member.findById(sub.MemberId);
         membersDateSubscription.push({
           MemberId: sub.MemberId,
+          MemberInfo,
           Date: mov.Date,
           subscriptionId: sub._id,
         });
@@ -84,7 +90,11 @@ const getAllMoviesSubscribersByMovieId = async (movieId) => {
     }
   }
   if (membersDateSubscription.length == 0) {
-    throw new Error(`no subscriptions for movie ${movieId}`);
+    if (_cameFromServer) {
+      return [];
+    } else {
+      throw new Error(`no subscriptions for movie ${movieId}`);
+    }
   } else {
     return membersDateSubscription;
   }
@@ -94,7 +104,10 @@ const getAllMoviesSubscribers = async () => {
   const allMovies = await Movie.find();
   const movieSubscribersArray = [];
   for (const mov of allMovies) {
-    const movSubscribers = await getAllMoviesSubscribersByMovieId(mov._id);
+    const movSubscribers = await getAllMoviesSubscribersByMovieId(
+      mov._id,
+      true
+    );
     movieSubscribersArray.push({
       movieId: mov._id,
       Subscribers: movSubscribers,
