@@ -12,13 +12,12 @@ function verifyToken(req, res, next) {
     });
   }
 
-  jwt.verify(token, JWT_ACCESS_SECRET_TOKEN, (err, user) => {
+  jwt.verify(token, JWT_ACCESS_SECRET_TOKEN, (err) => {
     if (err) {
       return res.status(403).json({
         message: "Forbidden: Invalid token",
       });
     }
-    req.user = user; // Attach user information to the request object.
     next();
   });
 }
