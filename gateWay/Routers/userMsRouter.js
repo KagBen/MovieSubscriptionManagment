@@ -147,7 +147,7 @@ msUsersRouter.post("/login", async (req, res) => {
           { user: userResponse.data.user },
           process.env.JWT_ACCESS_SECRET_TOKEN
         );
-        req.session.cookie.maxAge = null;
+        req.session.cookie.maxAge = 365*24*60*60*1000;
       } else {
         // If sessionTimeOut is a valid value, set expiration to that value in minutes
         const expiresIn = `${userResponse.data.user.sessionTimeOut}m`;
@@ -161,7 +161,7 @@ msUsersRouter.post("/login", async (req, res) => {
           userResponse.data.user.sessionTimeOut * 60 * 1000;
       }
       req.session.role = userResponse.data.user.role;
-      req.session.permissions = userResponse.data.user.permissions || [];
+      req.session.permissions = userResponse.data.user.permissions ;
       res.status(200).send({ user: userResponse.data.user, token });
     } else {
       // Handle the case where userResponse.data.user is not defined

@@ -42,7 +42,7 @@ const UpdateMovie = async (movieId, updateFields) => {
 
 const DeleteMovie = async (movieId) => {
   try {
-    const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
+    const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId,true);
     if (movieSubscribers.length != 0) {
       console.log(movieSubscribers);
       for (const sub of movieSubscribers) {

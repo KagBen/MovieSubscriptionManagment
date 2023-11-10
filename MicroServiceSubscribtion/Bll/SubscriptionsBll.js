@@ -137,7 +137,7 @@ const getAllSubscriptions = async () => {
 const getSubscriptionByMemberId = async (memberId) => {
   const allSubscriptions = await getAllSubscriptions();
   const SubscriptionById = allSubscriptions.find(
-    (subscription) => subscription.memberId === memberId
+    (subscription) => subscription.memberId.toString() === memberId
   );
   if (!SubscriptionById) {
     throw new Error(`${memberId} member not have subscription or not exist`);
