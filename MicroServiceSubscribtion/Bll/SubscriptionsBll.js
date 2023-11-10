@@ -19,23 +19,34 @@ const addSubcription = async (subscriptionObj) => {
     }
   }
 };
-
+const addMovieToSubscription = async (SubscriptionId, updateMovie) => {
+  try {
+    const subscription = await Subscription.findById(SubscriptionId);
+    const allMovies = subscription.Movies;
+    allMovies.push({ MovieId: updateMovie.MovieId, Date: updateMovie.Date });
+    const updSub = await updateSubscription(SubscriptionId, {
+      MemberId: subscription.MemberId,
+      Movies: allMovies,
+    });
+    return updSub;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 const updateSubscription = async (subscriptionId, updateFields) => {
   try {
-    // if (!updateFields.hasOwnProperty("MemberId")) {
-    //   throw new Error("Error : missing member Id its required");
-    // }
     const updateSubscription = Subscription.findOneAndUpdate(
       { _id: subscriptionId }, // Filter: Update the user with the specified userId
       { $set: updateFields }, // Update: Fields to be updated
       { new: true }
     );
-    if (!updateMember) {
+    if (!updateSubscription) {
       // Handle the case when the user with the given userId is not found
       throw new Error("Subscription not found");
     }
     return updateSubscription;
   } catch (error) {
+    console.log(error.message);
     throw new Error(error.message);
   }
 };
@@ -229,6 +240,7 @@ const deleteSubscription = async (subscriptionId) => {
 };
 
 module.exports = {
+  addMovieToSubscription,
   deleteSubscription,
   addSubcription,
   getAllSubscriptions,
