@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const expressHttpProxy = require("express-http-proxy");
 
 const msMembersRouter = express.Router();
 const MemberMs = "http://localhost:3002";
@@ -8,7 +9,7 @@ const apiProxy = expressHttpProxy(MemberMs, {
   parseReqBody: true,
   proxyReqPathResolver: (req) => {
     // Customize the path if needed
-    return `/users${req.url}`;
+    return `/members${req.url}`;
   },
   proxyErrorHandler: (err, res, next) => {
     console.error("Proxy Error:", err);
@@ -21,10 +22,10 @@ const apiProxy = expressHttpProxy(MemberMs, {
   },
 });
 
-msUsersRouter.get("/", apiProxy);
-msUsersRouter.patch("/register", apiProxy);
-msUsersRouter.delete("/:userId", apiProxy);
-msUsersRouter.patch("/:userId", apiProxy);
-msUsersRouter.post("/addUser", apiProxy);
+msMembersRouter.get("/", apiProxy);
+msMembersRouter.get("/:memberId", apiProxy);
+msMembersRouter.post("/", apiProxy);
+msMembersRouter.patch("/:id", apiProxy);
+msMembersRouter.delete("/:id", apiProxy);
 
 module.exports = msMembersRouter;

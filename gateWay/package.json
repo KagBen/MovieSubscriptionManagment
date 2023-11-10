@@ -19,5 +19,6 @@
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.2"
   },
+  "devDependencies": {},
   "description": ""
 }

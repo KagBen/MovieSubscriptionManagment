@@ -3,6 +3,9 @@ const session = require("express-session");
 const cors = require("cors");
 const msUsersRouter = require("./Routers/userMsRouter");
 const msMembersRouter = require("./Routers/membersSubMsRouter");
+const msMoviesRouter = require("./Routers/moviesSubMsRouter");
+const msSubscriptionsRouter = require("./Routers/subscriptionsSubMsRouter");
+const jwtVerify = require("./middlewears/jwtVerify");
 require("dotenv").config();
 
 const gatewayApp = express();
@@ -19,7 +22,9 @@ gatewayApp.use(
 );
 
 gatewayApp.use("/users", msUsersRouter);
-gatewayApp.use("/members", msMembersRouter);
+gatewayApp.use("/members", jwtVerify, msMembersRouter);
+gatewayApp.use("/movies", jwtVerify, msMoviesRouter);
+gatewayApp.use("/subscriptions", jwtVerify, msSubscriptionsRouter);
 
 const PORT = process.env.PORT || 3000;
 gatewayApp.listen(PORT, () => {
