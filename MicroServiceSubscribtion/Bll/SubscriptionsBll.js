@@ -68,7 +68,6 @@ const updateSubscription = async (subscriptionId, updateFields) => {
     throw new Error(error.message);
   }
 };
-
 const getAllSubscriptions = async () => {
   try {
     // Retrieve all subscriptions
