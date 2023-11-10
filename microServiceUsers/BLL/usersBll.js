@@ -29,12 +29,18 @@ const initializedAdmin = async () => {
 };
 //app.post
 const addUser = async (userObj) => {
+  console.log(userObj)
+  if(!userObj.hasOwnProperty("sessionTimeOut")) {
+    userObj.sessionTimeOut=60; //default sessiontime out
+  }
   const newUser = new User(userObj);
+  
   try {
     if (!newUser.username) {
       // Handle missing required fields
       throw new Error("missing username - username is mandatory!");
     }
+    
     if (
       typeof newUser.sessionTimeOut !== "number" ||
       newUser.sessionTimeOut <= 0
