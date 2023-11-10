@@ -114,6 +114,74 @@ const apiProxy = expressHttpProxy(SubsctiptionMs, {
  */
 
 msSubsctiptionRouter.get("/", permissions("View Subscriptions"), apiProxy);
+/**
+ * @openapi
+ * /subscriptions/member/{id}:
+ *   get:
+ *     summary: Get subscriptions by member ID
+ *     description: Get subscriptions by the ID of the member. Requires permission to view subscriptions and a valid JWT token.
+ *     tags:
+ *       - Subscriptions
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the member to get subscriptions for.
+ *         schema:
+ *           type: string
+ *     security:
+ *       - JWTAuth: []  # Requires JWT authentication
+ *       - PermissionViewSubscriptions: []  # Requires permission to view subscriptions
+ *     responses:
+ *       '200':
+ *         description: Subscriptions retrieved successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: "Successfully retrieved subscriptions"
+ *               subscrip:
+ *                 subscriptionId: "654e579d933cbacc96c44715"
+ *                 memberInfo:
+ *                   id: "654e5743933cbacc96c446ff"
+ *                   name: "Leanne Graham"
+ *                   email: "Sincere@april.biz"
+ *                   city: "Gwenborough"
+ *                 movies:
+ *                   - movieInfo:
+ *                       id: "654e5743933cbacc96c4451f"
+ *                       name: "Under the Dome"
+ *                       imgUrl: "https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg"
+ *                     date: "2023-05-22T00:00:00.000Z"
+ *       '401':
+ *         description: Unauthorized, missing or invalid JWT token or insufficient permissions
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Unauthorized"
+ *       '404':
+ *         description: Subscriptions not found for the member
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Subscriptions not found for the member"
+ *       '500':
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             example:
+ *               error: "Internal Server Error"
+ *     securitySchemes:
+ *       JWTAuth:
+ *         type: http
+ *         scheme: bearer
+ *         bearerFormat: JWT
+ *       PermissionViewSubscriptions:
+ *         type: apiKey
+ *         in: header
+ *         name: Authorization
+ *         description: Provide a valid permission token to view subscriptions
+ */
+msSubsctiptionRouter.get("/member/{id}", permissions("View Subscriptions"), apiProxy);
 
 msSubsctiptionRouter.get(
   "/member/:id",
