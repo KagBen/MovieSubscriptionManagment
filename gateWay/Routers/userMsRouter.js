@@ -3,7 +3,7 @@ const axios = require("axios");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const msUsersRouter = express.Router();
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const expressHttpProxy = require("express-http-proxy");
 const userMs = "http://localhost:3001";
 
 msUsersRouter.post("/login", async (req, res) => {
@@ -55,22 +55,28 @@ msUsersRouter.get("/logout", async (req, res) => {
   req.session.destroy();
 });
 
-const apiProxy = createProxyMiddleware({
-  target: userMs,
-  changeOrigin: true,
-  onProxyReq: (proxyReq, req, res) => {
-    console.log("Proxy Request:", req.url);
+const apiProxy = expressHttpProxy(userMs, {
+  parseReqBody: true,
+  proxyReqPathResolver: (req) => {
+    // Customize the path if needed
+    return `/users${req.url}`;
   },
-  onProxyRes: (proxyRes, req, res) => {
-    console.log("Proxy Response:", proxyRes.statusCode);
+  proxyErrorHandler: (err, res, next) => {
+    console.error('Proxy Error:', err);
+    res.status(500).send('Proxy Error');
   },
-  onError: (err, req, res) => {
-    console.error("Proxy Error:", err);
-    res.status(500).send("Proxy Error");
+  userResDecorator: (proxyRes, proxyResData, userReq, userRes) => {
+    // Log response data or modify it if needed
+    console.log('Proxy Response Data:', proxyResData.toString('utf8'));
+    return proxyResData;
   },
 });
 
 msUsersRouter.get("/", apiProxy);
+msUsersRouter.delete("/:userId", apiProxy);
+msUsersRouter.patch("/register", apiProxy);
+msUsersRouter.patch("/:userId", apiProxy);
+msUsersRouter.post("/addUser", apiProxy);
 
 
 module.exports = msUsersRouter;
