@@ -37,16 +37,18 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.patch("/newMovieAdd/:id", async (req, res) => {
+router.patch("/updateMovie/:id/:status", async (req, res) => {
   try {
     const updateFields = req.body.MovieObj;
     const subscriptionId = req.params.id;
-    const updatedSubscription = await SubscriptionBll.addMovieToSubscription(
+    const _status = req.params.status;
+    const updatedSubscription = await SubscriptionBll.UpdateMovieSubscription(
       subscriptionId,
-      updateFields
+      updateFields,
+      _status
     );
     res.status(200).send({
-      message: "Succefuly add movie to subscription",
+      message: `Succefuly ${_status} movie to subscription`,
       updatedSubscription,
     });
   } catch (error) {

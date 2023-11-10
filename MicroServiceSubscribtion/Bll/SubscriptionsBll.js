@@ -19,14 +19,32 @@ const addSubcription = async (subscriptionObj) => {
     }
   }
 };
-const addMovieToSubscription = async (SubscriptionId, updateMovie) => {
+const UpdateMovieSubscription = async (SubscriptionId, updateMovie, status) => {
   try {
+    console.log(status);
     const subscription = await Subscription.findById(SubscriptionId);
     const allMovies = subscription.Movies;
-    allMovies.push({ MovieId: updateMovie.MovieId, Date: updateMovie.Date });
+    console.log(allMovies);
+    if (status === "add") {
+      allMovies.push({
+        MovieId: updateMovie.MovieId,
+        Date: new Date(updateMovie.Date),
+      });
+    }
+    let restMovies = allMovies;
+    if (status === "cancle") {
+      const dateAsObj = new Date(updateMovie.Date);
+
+     restMovies = allMovies.filter(
+        (m) =>
+          m.MovieId.toString() !== updateMovie.MovieId &&
+          m.Date.toString() !== dateAsObj.toString()
+      );
+      console.log(restMovies);
+    }
     const updSub = await updateSubscription(SubscriptionId, {
       MemberId: subscription.MemberId,
-      Movies: allMovies,
+      Movies: status === "cancle" ? restMovies : allMovies,
     });
     return updSub;
   } catch (error) {
@@ -240,7 +258,7 @@ const deleteSubscription = async (subscriptionId) => {
 };
 
 module.exports = {
-  addMovieToSubscription,
+  UpdateMovieSubscription,
   deleteSubscription,
   addSubcription,
   getAllSubscriptions,
