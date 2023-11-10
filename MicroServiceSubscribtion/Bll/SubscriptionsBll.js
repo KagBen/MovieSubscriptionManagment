@@ -35,7 +35,7 @@ const UpdateMovieSubscription = async (SubscriptionId, updateMovie, status) => {
     if (status === "cancle") {
       const dateAsObj = new Date(updateMovie.Date);
 
-     restMovies = allMovies.filter(
+      restMovies = allMovies.filter(
         (m) =>
           m.MovieId.toString() !== updateMovie.MovieId &&
           m.Date.toString() !== dateAsObj.toString()
@@ -68,112 +68,6 @@ const updateSubscription = async (subscriptionId, updateFields) => {
     throw new Error(error.message);
   }
 };
-// const getAllSubscriptions = async() =>  {
-//   try {
-//     // Retrieve all subscriptions
-//     const subscriptions = await Subscription.find();
-
-//     // Map through subscriptions to format the data
-//     const formattedSubscriptions = await Promise.all(
-//       subscriptions.map(async (subscription) => {
-//         // Retrieve member details
-//         const member = await Member.findById(subscription.MemberId);
-
-//         // Map through movies in the subscription to get movie details
-//         const movies = await Promise.all(
-//           subscription.Movies.map(async (movie) => {
-//             const movieDetails = await Movie.findById(movie.MovieId);
-//             return {
-//               movieInfo: {
-//                 id: movieDetails._id,
-//                 name: movieDetails.Name,
-//                 imgUrl: movieDetails.Image,
-//               },
-//               date: movie.Date,
-//             };
-//           })
-//         );
-
-//         // Return the formatted subscription
-//         return {
-//           subscriptionId: subscription._id,
-//           memberInfo: {
-//             id: member._id,
-//             name: member.Name,
-//             email: member.Email,
-//             city: member.City,
-//           },
-//           movies,
-//         };
-//       })
-//     );
-
-//     return formattedSubscriptions;
-//   } catch (error) {
-//     console.error("Error retrieving subscriptions:", error);
-//     throw error;
-//   }
-// }
-// const getAllSubscriptions = async () => {
-//   try {
-//     const formattedSubscriptions = await Subscription.aggregate([
-//       {
-//         $lookup: {
-//           from: "members",
-//           localField: "MemberId",
-//           foreignField: "_id",
-//           as: "memberInfo",
-//         },
-//       },
-//       {
-//         $unwind: "$memberInfo",
-//       },
-//       {
-//         $unwind: "$Movies",
-//       },
-//       {
-//         $lookup: {
-//           from: "movies",
-//           localField: "Movies.MovieId",
-//           foreignField: "_id",
-//           as: "movieInfo",
-//         },
-//       },
-//       {
-//         $unwind: "$movieInfo",
-//       },
-//       {
-//         $group: {
-//           _id: "$_id",
-//           memberInfo: {
-//             $first: {
-//               id: "$memberInfo._id",
-//               name: "$memberInfo.Name",
-//               email: "$memberInfo.Email",
-//               city: "$memberInfo.City",
-//             },
-//           },
-//           subscriptionId: { $first: "$_id" },
-//           movies: {
-//             $push: {
-//               movieInfo: {
-//                 id: "$movieInfo._id",
-//                 name: "$movieInfo.Name",
-//                 imgUrl: "$movieInfo.Image",
-//               },
-//               date: "$Movies.Date",
-//             },
-//           },
-//         },
-//       },
-//     ]);
-
-//     return formattedSubscriptions;
-//   } catch (error) {
-//     console.error("Error retrieving subscriptions:", error);
-//     throw new Error(error.message);
-//   }
-// };
 
 const getAllSubscriptions = async () => {
   try {
