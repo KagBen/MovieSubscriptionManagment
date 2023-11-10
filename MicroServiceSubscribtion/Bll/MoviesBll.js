@@ -44,16 +44,18 @@ const DeleteMovie = async (movieId) => {
   try {
     const movieSubscribers = await getAllMoviesSubscribersByMovieId(movieId);
     if (movieSubscribers.length != 0) {
+      console.log(movieSubscribers)
       for (const sub of movieSubscribers) {
         const subToUpdate = await Subscription.findById(sub.subscriptionId);
         const MoviesUpdate = subToUpdate.Movies.filter(
           (movie) => movie.MovieId.toString() !== movieId
         );
         const updatedSubscribtion = await Subscription.findOneAndUpdate(
-          { _id: sub._id }, // Filter: Update the user with the specified userId
+          { _id: sub.subscriptionId }, // Filter: Update the user with the specified userId
           { $set: { Movies: MoviesUpdate } }, // Update: Fields to be updated
           { new: true } // Options: Return the updated user
         );
+        console.log(updatedSubscribtion)
         if (!updatedSubscribtion) {
           throw new Error(
             "subsciption not found when try to update during delete movie from server"
@@ -73,7 +75,7 @@ const getAllMoviesSubscribersByMovieId = async (movieId) => {
   for (const sub of allSubscriptions) {
     for (const mov of sub.Movies) {
       if (mov.MovieId.toString() === movieId) {
-        membersAndDate.push({
+        membersDateSubscription.push({
           MemberId: sub.MemberId,
           Date: mov.Date,
           subscriptionId: sub._id,
