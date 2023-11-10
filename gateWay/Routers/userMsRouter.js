@@ -34,7 +34,7 @@ msUsersRouter.post("/login", async (req, res) => {
           userResponse.data.user.sessionTimeOut * 60 * 1000;
       }
       req.session.role = userResponse.data.user.role;
-      req.session.user.permissions = userResponse.data.user.permissions;
+      req.session.permissions = userResponse.data.user.permissions || [];
       res.status(200).send({ user: userResponse.data.user, token });
     } else {
       // Handle the case where userResponse.data.user is not defined
