@@ -73,8 +73,8 @@ const apiProxy = expressHttpProxy(userMs, {
 });
 
 msUsersRouter.get("/", apiProxy);
-msUsersRouter.delete("/:userId", apiProxy);
 msUsersRouter.patch("/register", apiProxy);
+msUsersRouter.delete("/:userId", apiProxy);
 msUsersRouter.patch("/:userId", apiProxy);
 msUsersRouter.post("/addUser", apiProxy);
 
