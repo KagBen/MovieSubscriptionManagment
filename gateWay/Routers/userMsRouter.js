@@ -3,11 +3,12 @@ const axios = require("axios");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const msUsersRouter = express.Router();
-const userMs = "http://localhost:3001/users";
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const userMs = "http://localhost:3001";
 
 msUsersRouter.post("/login", async (req, res) => {
   try {
-    const userResponse = await axios.post(`${userMs}/login`, {
+    const userResponse = await axios.post(`${userMs}/users/login`, {
       userLoginInfo: req.body.userLoginInfo,
     });
     // Check if userResponse.data.user is defined
@@ -54,7 +55,23 @@ msUsersRouter.get("/logout", async (req, res) => {
   req.session.destroy();
 });
 
+const apiProxy = createProxyMiddleware({
+  target: userMs,
+  changeOrigin: true,
+  onProxyReq: (proxyReq, req, res) => {
+    console.log("Proxy Request:", req.url);
+  },
+  onProxyRes: (proxyRes, req, res) => {
+    console.log("Proxy Response:", proxyRes.statusCode);
+  },
+  onError: (err, req, res) => {
+    console.error("Proxy Error:", err);
+    res.status(500).send("Proxy Error");
+  },
+});
 
+msUsersRouter.get("/", apiProxy);
 
 
 module.exports = msUsersRouter;
+
