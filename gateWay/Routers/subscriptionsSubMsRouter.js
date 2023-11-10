@@ -181,7 +181,6 @@ msSubsctiptionRouter.get("/", permissions("View Subscriptions"), apiProxy);
  *         name: Authorization
  *         description: Provide a valid permission token to view subscriptions
  */
-msSubsctiptionRouter.get("/member/{id}", permissions("View Subscriptions"), apiProxy);
 
 msSubsctiptionRouter.get(
   "/member/:id",
