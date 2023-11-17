@@ -12,7 +12,7 @@ const moviesReducer = (state = initialState, action) => {
       const addedMoviesToOthers = [...state.movies, action.payload];
       return { ...state, movies: addedMoviesToOthers };
     }
-    
+
     //in update we find the movie delete him and add again .
     case "UPDATE_MOVIE": {
       const movieIndex = state.movies.findIndex(
@@ -26,7 +26,7 @@ const moviesReducer = (state = initialState, action) => {
       ];
       return {
         ...state,
-        movies: updatedMovies
+        movies: updatedMovies,
       };
     }
 
@@ -45,3 +45,5 @@ const moviesReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default moviesReducer;

@@ -51,3 +51,4 @@ const subscriptionsReducer = (state = initialState, action) => {
       return state;
   }
 };
+export default subscriptionsReducer;

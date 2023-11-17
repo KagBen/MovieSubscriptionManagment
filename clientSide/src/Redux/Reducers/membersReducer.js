@@ -48,3 +48,5 @@ const membersReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default membersReducer;
