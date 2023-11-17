@@ -1,10 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-<<<<<<< HEAD
-import { loadSubscriptions } from "./subscriptionAction";
-=======
-import {loadSubscriptions} from "./subscriptionsAction"
->>>>>>> 3b5ef5cb38c03443f7adea9daae4848af3d05f16
+
+
+import {loadSubscriptions} from "./subscriptionsAction";
+
 const url = `http://localhost:3000/members`;
 
 const setLoading = (_isLoading) => ({
@@ -68,14 +67,9 @@ export const addMembers = (jwtToken, memberObj) => async (dispatch) => {
 export const updateMembers =
   (jwtToken, memberId, memberObj) => async (dispatch) => {
     try {
-<<<<<<< HEAD
+
       //status can me "add" member to subscription or "cancle"
-      const resp = await axios.patch(`${url}/${memberId}`, memberObj, {
-        headers: {
-          "jwt-access-token": jwtToken,
-        },
-      });
-=======
+
       const resp = await axios.patch(`${url}/${memberId}`, memberObj,
         {
           headers: {
@@ -83,7 +77,7 @@ export const updateMembers =
           },
         }
       );
->>>>>>> 3b5ef5cb38c03443f7adea9daae4848af3d05f16
+
       const updateMemberData = resp.data.member;
       dispatch(updateMember(updateMemberData));
       toast.success(resp.data.message);
