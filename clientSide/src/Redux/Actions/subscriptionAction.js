@@ -9,7 +9,7 @@ const setLoading = (_isLoading) => ({
 });
 
 const setSubscription = (subscriptions) => ({
-  type: "SET_SUBSCRIPTION",
+  type: "SET_SUBSCRIPTIONS",
   payload: subscriptions,
 });
 
