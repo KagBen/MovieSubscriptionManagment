@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import {loadSubscriptions} from "./subscriptionAction"
+import {loadSubscriptions} from "./subscriptionsAction"
 const url = `http://localhost:3000/members`;
 
 const setLoading = (_isLoading) => ({
