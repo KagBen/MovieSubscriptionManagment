@@ -102,7 +102,7 @@ const apiProxy = expressHttpProxy(MovieMs, {
  *         name: Authorization
  *         description: Provide a valid permission token to view movies
  */
-msMoviesRouter.get("/", permissions("View Movies"), apiProxy);
+msMoviesRouter.get("/", apiProxy);
 /**
  * @openapi
  * /movies/MovieSubscribers:
@@ -155,7 +155,7 @@ msMoviesRouter.get("/", permissions("View Movies"), apiProxy);
  *         name: Authorization
  *         description: Provide a valid permission token to view movies
  */
-msMoviesRouter.get("/MovieSubscribers", permissions("View Movies"), apiProxy);
+msMoviesRouter.get("/MovieSubscribers", apiProxy);
 /**
  * @openapi
  * /movies/MovieSubscribers/{movieId}:
@@ -220,10 +220,8 @@ msMoviesRouter.get("/MovieSubscribers", permissions("View Movies"), apiProxy);
  *         description: Provide a valid permission token to view movies
  */
 
-msMoviesRouter.get(
-  "/MovieSubscribers/:movieId",
-  permissions("View Movies"),apiProxy);
-  /**
+msMoviesRouter.get("/MovieSubscribers/:movieId", apiProxy);
+/**
  * @openapi
  * /movies/{id}:
  *   get:
@@ -283,7 +281,7 @@ msMoviesRouter.get(
  *         name: Authorization
  *         description: Provide a valid permission token to view movies
  */
-msMoviesRouter.get("/:id", permissions("View Movies"), apiProxy);
+msMoviesRouter.get("/:id", apiProxy);
 /**
  * @openapi
  * /movies:
@@ -449,7 +447,7 @@ msMoviesRouter.post("/", permissions("Create Movies"), apiProxy);
  *         scheme: bearer
  *         bearerFormat: JWT
  */
-msMoviesRouter.patch("/:id", apiProxy);
+msMoviesRouter.patch("/:id", permissions("Update Movies"), apiProxy);
 /**
  * @openapi
  * /movies/{id}:

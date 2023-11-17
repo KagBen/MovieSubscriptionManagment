@@ -250,10 +250,10 @@ const apiProxy = expressHttpProxy(userMs, {
  *                     sessionTimeOut: null
  *                     createdDate: "2023-11-10T13:36:48.041Z"
  *                     permissions:
- *                       - "View Subscriptions"
+ *                       - "Update Subscriptions"
  *                       - "Create Subscriptions"
  *                       - "Delete Subscriptions"
- *                       - "View Movies"
+ *                       - "Update Movies"
  *                       - "Create Movies"
  *                       - "Delete Movies"
  *         '401':

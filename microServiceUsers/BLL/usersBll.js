@@ -13,10 +13,10 @@ const initializedAdmin = async () => {
       createdDate: Date.now(),
       userInfo: { firstName: "admin", lastName: "premium" },
       permissions: [
-        "View Subscriptions",
+        "Update Subscriptions",
         "Create Subscriptions",
         "Delete Subscriptions",
-        "View Movies",
+        "Update Movies",
         "Create Movies",
         "Delete Movies",
       ],

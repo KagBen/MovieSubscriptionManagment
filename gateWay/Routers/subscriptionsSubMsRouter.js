@@ -113,7 +113,7 @@ const apiProxy = expressHttpProxy(SubsctiptionMs, {
  *         description: Provide a valid permission token to view subscriptions
  */
 
-msSubsctiptionRouter.get("/", permissions("View Subscriptions"), apiProxy);
+msSubsctiptionRouter.get("/", apiProxy);
 /**
  * @openapi
  * /subscriptions/member/{id}:
@@ -182,11 +182,7 @@ msSubsctiptionRouter.get("/", permissions("View Subscriptions"), apiProxy);
  *         description: Provide a valid permission token to view subscriptions
  */
 
-msSubsctiptionRouter.get(
-  "/member/:id",
-  permissions("View Subscriptions"),
-  apiProxy
-);
+msSubsctiptionRouter.get("/member/:id", apiProxy);
 /**
  * @openapi
  * /subscriptions:
@@ -364,7 +360,7 @@ msSubsctiptionRouter.post("/", permissions("Create Subscriptions"), apiProxy);
  *         scheme: bearer
  *         bearerFormat: JWT
  */
-msSubsctiptionRouter.patch("/updateMovie/:id/:status", apiProxy);
+msSubsctiptionRouter.patch("/updateMovie/:id/:status", permissions("Update Subscriptions"), apiProxy);
 
 // msSubsctiptionRouter.patch("/:id", apiProxy);
 /**
