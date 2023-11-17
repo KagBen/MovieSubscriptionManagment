@@ -62,7 +62,6 @@ export const addUsers = (jwtToken, userObj) => async (dispatch) => {
 };
 
 
-//We don't retutn the user after updating
 export const updateUsers =(jwtToken, userId, userObj) => async (dispatch) => {
     try {
       const resp = await axios.patch(`${url}/${userId}`, userObj, {
@@ -70,10 +69,27 @@ export const updateUsers =(jwtToken, userId, userObj) => async (dispatch) => {
           "jwt-access-token": jwtToken,
         },
       });
-      const updateUserData = resp.data;
+      const updateUserData = resp.data.user;
       dispatch(updateUser(updateUserData));
       toast.success(resp.data.message);
     } catch (err) {
       toast.error(err.message);
     }
   };
+
+
+  export const deleteUsers = (jwtToken, userId) => async (dispatch) => {
+    try {
+      const resp = await axios.delete(`${url}/${userId}`, {
+        headers: {
+          "jwt-access-token": jwtToken,
+        },
+      });
+      const userDeleted = resp.data.userId;
+      dispatch(deleteUser(userDeleted));
+      toast.success(resp.data.message);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+  

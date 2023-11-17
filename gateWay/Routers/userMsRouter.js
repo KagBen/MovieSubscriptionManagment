@@ -341,6 +341,7 @@ msUsersRouter.patch("/register", apiProxy);
  *             application/json:
  *               example:
  *                 message: "Successfully deleted the user"
+ *                 userId: "654e44b3eb7e4354d4799429"
  *         '401':
  *           description: Unauthorized - User is not an admin
  *           content:
@@ -426,8 +427,12 @@ msUsersRouter.delete("/:userId", isAdmin, apiProxy);
  *                     firstName: "John"
  *                     lastName: "UpdatedLastName"
  *                   permissions:
- *                     - "read"
- *                     - "update"
+ *                       - "Update Subscriptions"
+ *                       - "Create Subscriptions"
+ *                       - "Delete Subscriptions"
+ *                       - "Update Movies"
+ *                       - "Create Movies"
+ *                       - "Delete Movies"
  *       security:
  *         - isAdmin: []
  *       responses:
@@ -436,7 +441,23 @@ msUsersRouter.delete("/:userId", isAdmin, apiProxy);
  *           content:
  *             application/json:
  *               example:
- *                 message: "Successfully updated user information"
+ *                 message: "Successfully added a new user"
+ *                 user:
+ *                   _id: "generated_user_id"
+ *                   username: "new_user"
+ *                   role: "user"
+ *                   sessionTimeOut: 30
+ *                   createdDate: "2023-01-01T12:00:00Z"
+ *                   userInfo:
+ *                     firstName: "New"
+ *                     lastName: "User"
+ *                   permissions:
+ *                       - "Update Subscriptions"
+ *                       - "Create Subscriptions"
+ *                       - "Delete Subscriptions"
+ *                       - "Update Movies"
+ *                       - "Create Movies"
+ *                       - "Delete Movies"
  *         '401':
  *           description: Unauthorized - User is not an admin
  *           content:
