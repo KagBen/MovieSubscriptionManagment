@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import {loadSubscriptions} from "./subscriptionAction"
 const url = `http://localhost:3000/movies`;
 
 const setLoading = (_isLoading) => ({
@@ -46,6 +46,48 @@ export const loadMovies = (jwtToken) => async (dispatch) => {
   }
 };
 
-export const addMovies = (jwtToken) => async (dispatch) => {};
-export const updateMovies = (jwtToken) => async (dispatch) => {};
-export const deleteMovies = (jwtToken) => async (dispatch) => {};
+export const addMovies = (jwtToken, movieObj) => async (dispatch) => {
+  try {
+    const resp = await axios.post(url, movieObj, {
+      headers: {
+        "jwt-access-token": jwtToken,
+      },
+    });
+    const newMovieData = resp.data.movie;
+    dispatch(addMovie(newMovieData));
+    toast.success(resp.data.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+};
+
+export const updateMovies =(jwtToken, movieId, movieObj) => async (dispatch) => {
+    try {
+      const resp = await axios.patch(`${url}/${movieId}`, movieObj, {
+        headers: {
+          "jwt-access-token": jwtToken,
+        },
+      });
+      const updateMovieData = resp.data.movie;
+      dispatch(updateMovie(updateMovieData));
+      toast.success(resp.data.message);
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+export const deleteMovies = (jwtToken, movieId) => async (dispatch) => {
+  try {
+    const resp = await axios.delete(`${url}/${movieId}`, {
+      headers: {
+        "jwt-access-token": jwtToken,
+      },
+    });
+    const movieDeleted = resp.data.movieId;
+    dispatch(deleteMovie(movieDeleted));
+    dispatch(loadSubscriptions());
+    toast.success(resp.data.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+};

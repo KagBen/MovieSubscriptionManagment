@@ -324,18 +324,19 @@ msSubsctiptionRouter.post("/", permissions("Create Subscriptions"), apiProxy);
  *           application/json:
  *             example:
  *               message: "Successfully updated subscription"
- *               subscriptionId: "654e4ceab5ccab9e049e2c32"
- *               memberInfo:
- *                 id: "654e4c7eb5ccab9e049e2c1e"
- *                 name: "Member Name"
- *                 email: "member@example.com"
- *                 city: "Member City"
- *               movies:
- *                 - movieInfo:
- *                     id: "654e4c7db5ccab9e049e2a3e"
- *                     name: "Movie Name"
- *                     imgUrl: "https://static.tvmaze.com/uploads/images/medium_portrait/163/407679.jpg"
- *                   date: "2023-05-21T00:00:00.000Z"
+ *               subscription:
+ *                 subscriptionId: "654e4ceab5ccab9e049e2c32"
+ *                 memberInfo:
+ *                   id: "654e4c7eb5ccab9e049e2c1e"
+ *                   name: "Member Name"
+ *                   email: "member@example.com"
+ *                   city: "Member City"
+ *                 movies:
+ *                   - movieInfo:
+ *                       id: "654e4c7db5ccab9e049e2a3e"
+ *                       name: "Movie Name"
+ *                       imgUrl: "https://static.tvmaze.com/uploads/images/medium_portrait/163/407679.jpg"
+ *                     date: "2023-05-21T00:00:00.000Z"
  *       '401':
  *         description: Unauthorized, missing or invalid JWT token
  *         content:

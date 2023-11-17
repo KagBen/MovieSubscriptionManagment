@@ -49,7 +49,7 @@ router.patch("/updateMovie/:id/:status", async (req, res) => {
     );
     res.status(200).send({
       message: `Succefuly ${_status} movie to subscription`,
-      updatedSubscription,
+      subscription:updatedSubscription,
     });
   } catch (error) {
     res.status(401).send({ message: error.message });
