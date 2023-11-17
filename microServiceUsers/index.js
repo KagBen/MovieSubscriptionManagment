@@ -100,7 +100,7 @@ app.delete("/users/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
     await userBll.deleteUser(userId);
-    res.status(200).send({ message: "user deleted successfully" });
+    res.status(200).send({ message: "user deleted successfully" ,userId });
   } catch (error) {
     res.status(401).send({ message: error.message });
   }
