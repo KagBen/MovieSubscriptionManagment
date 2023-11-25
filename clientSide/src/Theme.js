@@ -9,6 +9,7 @@ const theme = createTheme({
       main: "#ff9800",
     },
     secondary: { main: "#ff9800" },
+    Success: {main:"#2e7d32"}
     // Other palette properties...
   },
   components: {

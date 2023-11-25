@@ -29,18 +29,18 @@ const initializedAdmin = async () => {
 };
 //app.post
 const addUser = async (userObj) => {
-  console.log(userObj)
-  if(!userObj.hasOwnProperty("sessionTimeOut")) {
-    userObj.sessionTimeOut=60; //default sessiontime out
+  console.log(userObj);
+  if (!userObj.hasOwnProperty("sessionTimeOut")) {
+    userObj.sessionTimeOut = 60; //default sessiontime out
   }
   const newUser = new User(userObj);
-  
+
   try {
     if (!newUser.username) {
       // Handle missing required fields
       throw new Error("missing username - username is mandatory!");
     }
-    
+
     if (
       typeof newUser.sessionTimeOut !== "number" ||
       newUser.sessionTimeOut <= 0
@@ -110,11 +110,15 @@ const registerUser = async (userLoginInfo) => {
     const userByUsername = allUsers.find(
       (user) => user.username === userLoginInfo.username
     );
-
     if (!userByUsername) {
-      throw new Error(`User ${userLoginInfo.username} not found`);
+      throw new Error(`User with username:${userLoginInfo.username} not found`);
     }
 
+    if (userByUsername.hasOwnProperty("password") && userByUsername.password.length > 0) {
+      throw new Error(
+        `User with username:${userLoginInfo.username} Already registered`
+      );
+    }
     const hashedPassword = await bcrypt.hashPassword(userLoginInfo.password);
     const res = await updateUser(userByUsername._id, {
       password: hashedPassword,
@@ -128,7 +132,6 @@ const registerUser = async (userLoginInfo) => {
 };
 
 const loginUser = async (userLoginInfo) => {
-
   const allUsers = await User.find(); //
   // do find because sure that there only one user with spcific username
   const userByUsername = allUsers.find(

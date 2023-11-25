@@ -13,12 +13,25 @@ import LoginRegComp from "./loginRegComp";
 
 const EntryPage = () => {
   const [_isLogin, setIsLogin] = useState(true);
-
+  const [LoginbuttonStyle, setLogButtonStyle] = useState("contained");
+  const [RegisterbuttonStyle, setRegButtonStyle] = useState("outlined");
   const RightStack = styled(Stack)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     minHeight: "100vh",
     flexGrow: "0.8",
   }));
+
+  const handleLoginClick = () => {
+    setIsLogin(true);
+    setLogButtonStyle("contained");
+    setRegButtonStyle("outlined");
+  };
+
+  const handleRegisterClick = () => {
+    setIsLogin(false);
+    setLogButtonStyle("outlined");
+    setRegButtonStyle("contained");
+  };
 
   return (
     <>
@@ -34,9 +47,7 @@ const EntryPage = () => {
               X
             </Typography>
           </Typography>
-          <Stack
-            sx={{ padding: "40px", border: "1px solid"}}
-          >
+          <Stack sx={{ padding: "40px", border: "1px solid" }}>
             <ButtonGroup
               variant="contained"
               color="primary"
@@ -45,10 +56,20 @@ const EntryPage = () => {
               disableElevation
               fullWidth={true}
             >
-              <Button onClick={() => setIsLogin(true)}>Login</Button>
-              <Button onClick={() => setIsLogin(false)}>Register</Button>
+              <Button onClick={handleLoginClick} variant={LoginbuttonStyle}>
+                Login
+              </Button>
+              <Button
+                onClick={handleRegisterClick}
+                variant={RegisterbuttonStyle}
+              >
+                Register
+              </Button>
             </ButtonGroup>
-            <LoginRegComp isLogin={_isLogin} />
+            <LoginRegComp
+              isLogin={_isLogin}
+              handleLoginClick={handleLoginClick}
+            />
           </Stack>
         </Stack>
         <RightStack>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const LoginRegComp = ({ isLogin }) => {
+const LoginRegComp = ({ isLogin ,handleLoginClick}) => {
   const [userData, setUserData] = useState({});
 
   const handleUserData = (e) => {
@@ -16,11 +16,28 @@ const LoginRegComp = ({ isLogin }) => {
       const loginUser = await axios.post("http://localhost:3000/users/login", {
         userLoginInfo: userData,
       });
-      toast.success("user logged in");
+      toast.success("User logged in");
     } catch (err) {
-      toast.error(err.response.data.message);
+      toast.error(await err.response.data.message);
     }
   };
+
+  const RegisterUserToServer = async () => {
+    try {
+      const RegisterUser = await axios.patch("http://localhost:3000/users/register", {
+        userRegisterInfo: userData,
+      });
+      console.log(RegisterUser)
+      toast.success("User register Successfully");
+    handleLoginClick();
+    } catch (err) {
+        console.log(err);
+      toast.error(await err.response.data.message);
+    }
+  };
+
+
+
 
   return (
     <>
@@ -52,7 +69,7 @@ const LoginRegComp = ({ isLogin }) => {
             Login
           </Button>
         ) : (
-          <Button variant="contained">Register</Button>
+          <Button variant="contained" onClick={RegisterUserToServer}>Register</Button>
         )}
       </Stack>
     </>
