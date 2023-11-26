@@ -4,12 +4,9 @@ import {
   Typography,
   ButtonGroup,
   Button,
-  Container,
-  Avatar,
   Box,
 } from "@mui/material";
-import { ThemeProvider, styled } from "@mui/system";
-import theme from "../../Theme";
+import { styled } from "@mui/system";
 import LoginRegComp from "./loginRegComp";
 import TitleComp from "../components/title";
 const backgroundImageUrl =

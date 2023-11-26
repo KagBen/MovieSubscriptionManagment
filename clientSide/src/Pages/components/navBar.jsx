@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Button,
 } from "@mui/material";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -18,6 +19,7 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import LockPersonOutlinedIcon from "@mui/icons-material/LockPersonOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
+import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import TitleComp from "./title";
 
 const NavBar = () => {
@@ -52,6 +54,58 @@ const NavBar = () => {
             </Box>
           </Stack>
           <Divider />
+          <Stack sx={{ alignItems: "center", marginY: "7px" }}>
+            <Box>
+              <CountdownCircleTimer
+                size={120}
+                strokeWidth={4}
+                isPlaying
+                duration={
+                  userData.sessionTimeOut
+                    ? userData.sessionTimeOut * 60
+                    : Infinity
+                } // Convert duration to seconds
+                colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+                colorsTime={[7, 5, 2, 0]}
+              >
+                {({ remainingTime }) =>
+                  userData.sessionTimeOut ? (
+                    <Box sx={{ textAlign: "center" }}>
+                      <Typography variant="h4" color="initial">
+                        {Math.ceil(remainingTime / 60)}
+                      </Typography>
+                      <Typography
+                        variant="span"
+                        sx={{ fontSize: "20px" }}
+                        color="initial"
+                      >
+                        Minutes
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <Stack sx={{ textAlign: "center", alignItems: "center" }}>
+                      <AllInclusiveOutlinedIcon sx={{ fontSize: "40px" }} />
+                      <Typography
+                        variant="span"
+                        sx={{ fontSize: "20px" }}
+                        color="initial"
+                      >
+                        Minutes
+                      </Typography>
+                    </Stack>
+                  )
+                }
+              </CountdownCircleTimer>
+              <Typography
+                variant="body2"
+                sx={{ textAlign: "center", paddingTop: "5px" }}
+                color="initial"
+              >
+                Remaining Time
+              </Typography>
+            </Box>
+          </Stack>
+          <Divider />
           <MenuList>
             <MenuItem>
               <ListItemIcon>
@@ -71,21 +125,23 @@ const NavBar = () => {
               </ListItemIcon>
               <ListItemText>Subscriptions</ListItemText>
             </MenuItem>
-            <Divider />
+
             {userData.role === "admin" && (
               <MenuItem>
                 <ListItemIcon>
                   <PeopleAltOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText>Users(admin Only)</ListItemText>
-                <LockPersonOutlinedIcon />
+                <ListItemIcon>
+                  <LockPersonOutlinedIcon />
+                </ListItemIcon>
               </MenuItem>
             )}
           </MenuList>
         </Box>
 
         <ButtonGroup
-          variant="outlined"
+          variant="text"
           size={"large"}
           disableElevation
           fullWidth={true}
