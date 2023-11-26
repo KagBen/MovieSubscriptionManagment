@@ -11,6 +11,7 @@ import {
 import { ThemeProvider, styled } from "@mui/system";
 import theme from "../../Theme";
 import LoginRegComp from "./loginRegComp";
+import TitleComp from "../components/title";
 const backgroundImageUrl =
   "https://img.freepik.com/premium-photo/popcorn-red-striped-bucket-cinema-clapperboard-red-blue-background-cinema-concept_132254-1029.jpg";
 
@@ -41,19 +42,8 @@ const EntryPage = () => {
   return (
     <>
       <Stack direction="row">
-        <Stack sx={{ width:"35%" }} spacing={7}>
-          <Typography variant="h2" color="initial">
-            Movi
-            <Typography
-              variant="span"
-              fontSize={"65px"}
-              color="initial"
-              fontWeight={"bold"}
-              sx={{ color: "primary.main" }}
-            >
-              X
-            </Typography>
-          </Typography>
+        <Stack sx={{ width: "35%" }} spacing={7}>
+          <TitleComp />
           <Stack sx={{ padding: "40px" }}>
             <ButtonGroup
               variant="contained"
@@ -80,9 +70,9 @@ const EntryPage = () => {
           </Stack>
         </Stack>
         <RightStack>
-          <Box sx={{ color: "white" , backgroundColor:"black"}}>
-            <Typography variant="h2" >Welcome ...</Typography>
-            <Typography variant="span" >
+          <Box sx={{ color: "white", backgroundColor: "black" }}>
+            <Typography variant="h2">Welcome ...</Typography>
+            <Typography variant="span">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Reiciendis ad laboriosam officiis esse suscipit minima magni.
               Atque minima quos sapiente harum, ea fugiat animi repellendus
