@@ -6,19 +6,24 @@ import {
   Button,
   Container,
   Avatar,
+  Box,
 } from "@mui/material";
 import { ThemeProvider, styled } from "@mui/system";
 import theme from "../../Theme";
 import LoginRegComp from "./loginRegComp";
+const backgroundImageUrl =
+  "https://img.freepik.com/premium-photo/popcorn-red-striped-bucket-cinema-clapperboard-red-blue-background-cinema-concept_132254-1029.jpg";
 
 const EntryPage = () => {
   const [_isLogin, setIsLogin] = useState(true);
   const [LoginbuttonStyle, setLogButtonStyle] = useState("contained");
   const [RegisterbuttonStyle, setRegButtonStyle] = useState("outlined");
   const RightStack = styled(Stack)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
+    backgroundImage: `url(${backgroundImageUrl})`,
+    backgroundSize: "cover",
     minHeight: "100vh",
-    flexGrow: "0.8",
+    flexGrow: "0.6",
+    boxShadow: "-5px 0 5px rgba(0, 0, 0, 0.5)", // Shadow from right side
   }));
 
   const handleLoginClick = () => {
@@ -36,18 +41,20 @@ const EntryPage = () => {
   return (
     <>
       <Stack direction="row">
-        <Stack sx={{ flexGrow: "0.2" }}>
-          <Typography variant="h1" color="initial">
+        <Stack sx={{ width:"35%" }} spacing={7}>
+          <Typography variant="h2" color="initial">
             Movi
             <Typography
               variant="span"
+              fontSize={"65px"}
               color="initial"
+              fontWeight={"bold"}
               sx={{ color: "primary.main" }}
             >
               X
             </Typography>
           </Typography>
-          <Stack sx={{ padding: "40px", border: "1px solid" }}>
+          <Stack sx={{ padding: "40px" }}>
             <ButtonGroup
               variant="contained"
               color="primary"
@@ -73,9 +80,15 @@ const EntryPage = () => {
           </Stack>
         </Stack>
         <RightStack>
-          <Typography variant="h1" color="initial">
-            image part
-          </Typography>
+          <Box sx={{ color: "white" , backgroundColor:"black"}}>
+            <Typography variant="h2" >Welcome ...</Typography>
+            <Typography variant="span" >
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Reiciendis ad laboriosam officiis esse suscipit minima magni.
+              Atque minima quos sapiente harum, ea fugiat animi repellendus
+              numquam fugit magnam, impedit quaerat!
+            </Typography>
+          </Box>
         </RightStack>
       </Stack>
     </>
