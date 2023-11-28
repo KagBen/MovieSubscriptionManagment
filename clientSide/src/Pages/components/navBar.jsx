@@ -24,7 +24,7 @@ import TitleComp from "./title";
 
 const NavBar = () => {
   const userData = JSON.parse(sessionStorage.userData);
-  console.log(userData);
+  
   return (
     <>
       <Stack
