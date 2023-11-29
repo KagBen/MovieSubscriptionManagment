@@ -21,10 +21,12 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import AllInclusiveOutlinedIcon from "@mui/icons-material/AllInclusiveOutlined";
 import TitleComp from "./title";
-
-const NavBar = () => {
+import { AuthLogout } from "../../utils/authUtils";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+const NavBar = ({ timeRemaining }) => {
+  const nav = useNavigate();
   const userData = JSON.parse(sessionStorage.userData);
-  
   return (
     <>
       <Stack
@@ -60,27 +62,39 @@ const NavBar = () => {
                 size={120}
                 strokeWidth={4}
                 isPlaying
-                duration={
-                  userData.sessionTimeOut
-                    ? userData.sessionTimeOut * 60
-                    : Infinity
-                } // Convert duration to seconds
+                duration={timeRemaining ? timeRemaining * 60 : Infinity} // Convert duration to seconds
                 colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
                 colorsTime={[7, 5, 2, 0]}
               >
                 {({ remainingTime }) =>
                   userData.sessionTimeOut ? (
                     <Box sx={{ textAlign: "center" }}>
-                      <Typography variant="h4" color="initial">
-                        {Math.ceil(remainingTime / 60)}
-                      </Typography>
-                      <Typography
-                        variant="span"
-                        sx={{ fontSize: "20px" }}
-                        color="initial"
-                      >
-                        Minutes
-                      </Typography>
+                      {remainingTime / 60 < 1 ? (
+                        <Typography variant="h4" color="initial">
+                          {remainingTime}
+                        </Typography>
+                      ) : (
+                        <Typography variant="h4" color="initial">
+                          {Math.ceil(remainingTime / 60)}
+                        </Typography>
+                      )}
+                      {remainingTime / 60 < 1 ? (
+                        <Typography
+                          variant="span"
+                          sx={{ fontSize: "20px" }}
+                          color="initial"
+                        >
+                          Seconds
+                        </Typography>
+                      ) : (
+                        <Typography
+                          variant="span"
+                          sx={{ fontSize: "20px" }}
+                          color="initial"
+                        >
+                          Minutes
+                        </Typography>
+                      )}
                     </Box>
                   ) : (
                     <Stack sx={{ textAlign: "center", alignItems: "center" }}>
@@ -149,6 +163,9 @@ const NavBar = () => {
           <Button
             endIcon={<LogoutOutlinedIcon />}
             sx={{ textTransform: "none" }}
+            onClick={() => {
+              AuthLogout(nav, toast);
+            }}
           >
             Logout
           </Button>

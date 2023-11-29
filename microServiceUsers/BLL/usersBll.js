@@ -110,11 +110,14 @@ const registerUser = async (userLoginInfo) => {
     const userByUsername = allUsers.find(
       (user) => user.username === userLoginInfo.username
     );
+    console.log(userByUsername );
     if (!userByUsername) {
       throw new Error(`User with username:${userLoginInfo.username} not found`);
     }
-
-    if (userByUsername.hasOwnProperty("password") && userByUsername.password.length > 0) {
+    if (
+      userByUsername.hasOwnProperty("password") &&
+      userByUsername.password.length > 0
+    ) {
       throw new Error(
         `User with username:${userLoginInfo.username} Already registered`
       );
