@@ -32,6 +32,7 @@ const MainPage = () => {
 
     return () => clearTimeout(timeoutId); // Cleanup the timeout on component unmount
   }, []);
+  
   return (
     <>
       <Stack direction={"row"}>
