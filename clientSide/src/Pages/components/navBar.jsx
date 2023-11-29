@@ -121,7 +121,11 @@ const NavBar = ({ timeRemaining }) => {
           </Stack>
           <Divider />
           <MenuList>
-            <MenuItem>
+            <MenuItem
+              onClick={() => {
+                nav("Movies");
+              }}
+            >
               <ListItemIcon>
                 <SlideshowIcon />
               </ListItemIcon>

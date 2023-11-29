@@ -1,14 +1,12 @@
 import { Stack, Box } from "@mui/material";
 import NavBar from "../components/navBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { AuthLogout } from "../../utils/authUtils";
-const MainPage = () => {
-  const [timeRemain, updateTime] = useState();
-  const nav = useNavigate();
 
+const MainPage = () => {
+  const nav = useNavigate();
   //   const logoutF = async () => {
   //     try {
   //       const logoutUser = await axios.get("http://localhost:3000/users/logout");
@@ -38,7 +36,6 @@ const MainPage = () => {
           await AuthLogout(nav, toast);
           toast.success("Session time is over - user logged out");
         }, remainingTimeInMillis); // Add a delay of 0 milliseconds
-
         return () => clearTimeout(timeoutId);
       }
     }

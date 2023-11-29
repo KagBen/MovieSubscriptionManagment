@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import EntryPage from "./Pages/entryPage/entryPage";
 import "react-toastify/dist/ReactToastify.css";
 import MainPage from "./Pages/mainPage/mainPage";
+import MoviesPage from "./Pages/MoviesPage/MoviesPage";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<EntryPage />} />
         <Route path="/Home" element={<MainPage />}>
-          <Route />
+          <Route path="Movies" element={<MoviesPage />} />
           <Route />
           <Route />
           <Route />
