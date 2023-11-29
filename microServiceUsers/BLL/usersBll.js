@@ -115,7 +115,7 @@ const registerUser = async (userLoginInfo) => {
       throw new Error(`User with username:${userLoginInfo.username} not found`);
     }
     if (
-      userByUsername.hasOwnProperty("password") &&
+      userByUsername.password &&
       userByUsername.password.length > 0
     ) {
       throw new Error(
