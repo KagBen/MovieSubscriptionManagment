@@ -52,7 +52,6 @@ const MainPage = () => {
       }
     }
   }, []);
-
   return (
     <>
       <Stack direction={"row"}>
