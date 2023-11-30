@@ -1,5 +1,6 @@
 const isAdmin = (req, res, next) => { 
-
+    console.log("from mw:");
+    console.log(req.session);
     if(req.session.role == 'admin')
     {
         next();

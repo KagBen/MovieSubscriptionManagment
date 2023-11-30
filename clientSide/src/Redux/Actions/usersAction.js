@@ -27,69 +27,64 @@ const deleteUser = (userId) => ({
   payload: userId,
 });
 
-
-export const loadUsers = (jwtToken) => async (dispatch) => {
-    dispatch(setLoading(true));
-    try {
-      const resp = await axios.get(url, {
-        headers: {
-          "jwt-access-token": jwtToken,
-        },
-      });
-      const usersData = resp.data.users;
-      dispatch(setUsers(usersData));
-      toast.success(resp.data.message);
-    } catch (err) {
-      toast.error(err.message);
-    } finally {
-      dispatch(setLoading(false));
-    }
+export const loadUsers = () => async (dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const resp = await axios.get(url, {
+      withCredentials: true,
+    });
+    const usersData = resp.data.users;
+    dispatch(setUsers(usersData));
+    toast.success(resp.data.message);
+  } catch (err) {
+    console.log(err);
+    toast.error(err.response.data.message);
+  } finally {
+    dispatch(setLoading(false));
+  }
 };
 
 export const addUsers = (jwtToken, userObj) => async (dispatch) => {
-    try {
-      const resp = await axios.post(`${url}/addUser`, userObj, {
-        headers: {
-          "jwt-access-token": jwtToken,
-        },
-      });
-      const newUserData = resp.data.user;
-      dispatch(addUser(newUserData));
-      toast.success(resp.data.message);
-    } catch (err) {
-      toast.error(err.message);
-    }
+  try {
+    const resp = await axios.post(`${url}/addUser`, userObj, {
+      headers: {
+        "jwt-access-token": jwtToken,
+      },
+    });
+    const newUserData = resp.data.user;
+    dispatch(addUser(newUserData));
+    toast.success(resp.data.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
 };
 
+export const updateUsers = (jwtToken, userId, userObj) => async (dispatch) => {
+  try {
+    const resp = await axios.patch(`${url}/${userId}`, userObj, {
+      headers: {
+        "jwt-access-token": jwtToken,
+      },
+    });
+    const updateUserData = resp.data.user;
+    dispatch(updateUser(updateUserData));
+    toast.success(resp.data.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+};
 
-export const updateUsers =(jwtToken, userId, userObj) => async (dispatch) => {
-    try {
-      const resp = await axios.patch(`${url}/${userId}`, userObj, {
-        headers: {
-          "jwt-access-token": jwtToken,
-        },
-      });
-      const updateUserData = resp.data.user;
-      dispatch(updateUser(updateUserData));
-      toast.success(resp.data.message);
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
-
-
-  export const deleteUsers = (jwtToken, userId) => async (dispatch) => {
-    try {
-      const resp = await axios.delete(`${url}/${userId}`, {
-        headers: {
-          "jwt-access-token": jwtToken,
-        },
-      });
-      const userDeleted = resp.data.userId;
-      dispatch(deleteUser(userDeleted));
-      toast.success(resp.data.message);
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
-  
+export const deleteUsers = (jwtToken, userId) => async (dispatch) => {
+  try {
+    const resp = await axios.delete(`${url}/${userId}`, {
+      headers: {
+        "jwt-access-token": jwtToken,
+      },
+    });
+    const userDeleted = resp.data.userId;
+    dispatch(deleteUser(userDeleted));
+    toast.success(resp.data.message);
+  } catch (err) {
+    toast.error(err.message);
+  }
+};

@@ -4,8 +4,13 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { AuthLogout } from "../../utils/authUtils";
-
+import { useDispatch } from "react-redux";
+import { loadMovies } from "../../Redux/Actions/moviesAction";
+import { loadMembers } from "../../Redux/Actions/membersAction";
+import { loadUsers } from "../../Redux/Actions/usersAction";
+import { loadSubscriptions } from "../../Redux/Actions/subscriptionsAction";
 const MainPage = () => {
+  const dispatch = useDispatch();
   const nav = useNavigate();
   //   const logoutF = async () => {
   //     try {
@@ -19,6 +24,13 @@ const MainPage = () => {
   //       toast.error(await err.response.data.message);
   //     }
   //   };
+
+  useEffect(() => {
+    dispatch(loadMovies(sessionStorage.userToken));
+    dispatch(loadMembers(sessionStorage.userToken));
+    dispatch(loadSubscriptions(sessionStorage.userToken));
+     dispatch(loadUsers());
+  }, []);
 
   useEffect(() => {
     const sessionExpirationInMillis = localStorage.getItem(
