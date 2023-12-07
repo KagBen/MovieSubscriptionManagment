@@ -1,3 +1,4 @@
+import api from "../../apiConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {loadSubscriptions} from "./subscriptionsAction"
@@ -31,7 +32,7 @@ const deleteMovie = (movieId) => ({
 export const loadMovies = (jwtToken) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const resp = await axios.get(url, {
+    const resp = await  axios.get(url, {
       headers: {
         "jwt-access-token": jwtToken,
       },
@@ -48,7 +49,7 @@ export const loadMovies = (jwtToken) => async (dispatch) => {
 
 export const addMovies = (jwtToken, movieObj) => async (dispatch) => {
   try {
-    const resp = await axios.post(url, movieObj, {
+    const resp = await  axios.post(url, movieObj, {
       headers: {
         "jwt-access-token": jwtToken,
       },
@@ -63,7 +64,7 @@ export const addMovies = (jwtToken, movieObj) => async (dispatch) => {
 
 export const updateMovies =(jwtToken, movieId, movieObj) => async (dispatch) => {
     try {
-      const resp = await axios.patch(`${url}/${movieId}`, movieObj, {
+      const resp = await  axios.patch(`${url}/${movieId}`, movieObj, {
         headers: {
           "jwt-access-token": jwtToken,
         },
@@ -78,7 +79,7 @@ export const updateMovies =(jwtToken, movieId, movieObj) => async (dispatch) => 
 
 export const deleteMovies = (jwtToken, movieId) => async (dispatch) => {
   try {
-    const resp = await axios.delete(`${url}/${movieId}`, {
+    const resp = await  axios.delete(`${url}/${movieId}`, {
       headers: {
         "jwt-access-token": jwtToken,
       },

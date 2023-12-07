@@ -13,7 +13,7 @@ const app = express();
 
 ConnectDB();
 
-app.use(cors());
+
 app.use(express.json());
 
 //add here routers

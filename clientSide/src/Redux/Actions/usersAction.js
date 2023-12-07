@@ -1,3 +1,4 @@
+import api from "../../apiConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
 const url = `http://localhost:3000/users`;
@@ -30,9 +31,7 @@ const deleteUser = (userId) => ({
 export const loadUsers = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const resp = await axios.get(url, {
-      withCredentials: true,
-    });
+    const resp = await axios.get(url);
     const usersData = resp.data.users;
     dispatch(setUsers(usersData));
     toast.success(resp.data.message);

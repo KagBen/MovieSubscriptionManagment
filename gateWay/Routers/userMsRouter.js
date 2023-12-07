@@ -164,7 +164,14 @@ msUsersRouter.post("/login", async (req, res) => {
       req.session.role = userResponse.data.user.role;
       req.session.permissions = userResponse.data.user.permissions;
       console.log("from login : ");
-      console.log(req.session);
+      console.log(req.sessionID);
+      req.session.save((err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("session data saved successfully" + req.sessionID);
+        }
+      });
       res.status(200).send({ user: userResponse.data.user, token });
     } else {
       // Handle the case where userResponse.data.user is not defined
@@ -204,7 +211,7 @@ msUsersRouter.post("/login", async (req, res) => {
  */
 msUsersRouter.get("/logout", async (req, res) => {
   try {
-    console.log("from logged out" );
+    console.log("from logged out");
     console.log(req.session);
     req.session.destroy();
     res.status(200).send("logout successful");
