@@ -15,22 +15,23 @@ const gatewayApp = express();
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 gatewayApp.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 gatewayApp.use(express.json());
+
+gatewayApp.use(cors());
+
 gatewayApp.use(
   session({
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: true,
-      sameSite: "None", // Adjust accordingly
-    },
-    //cookie: { maxAge: 1000 * 20 }, // time remaining in milliseconds - not required -but means that if didn’t do anything in 1000ms*20 = 20s  destroy the session
+    saveUninitialized: false,
   })
 );
-gatewayApp.use(
-  cors({credentials:true} )
-);
 
+gatewayApp.use((req, res, next) => {
+  console.log("Request URL:", req.originalUrl);
+  console.log("Session ID:", req.sessionID);
+  // ... other logging
+  next();
+});
 gatewayApp.use("/users", msUsersRouter);
 gatewayApp.use("/members", jwtVerify, msMembersRouter);
 gatewayApp.use("/movies", jwtVerify, msMoviesRouter);

@@ -12,18 +12,7 @@ import { loadSubscriptions } from "../../Redux/Actions/subscriptionsAction";
 const MainPage = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  //   const logoutF = async () => {
-  //     try {
-  //       const logoutUser = await axios.get("http://localhost:3000/users/logout");
-  //       sessionStorage.clear();
-  //       nav("/");
-
-  //       toast.success(logoutUser.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //       toast.error(await err.response.data.message);
-  //     }
-  //   };
+ 
 
   useEffect(() => {
     dispatch(loadMovies(sessionStorage.userToken));

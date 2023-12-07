@@ -1,4 +1,5 @@
 // authUtils.js
+
 import axios from "axios";
 
 export const AuthLogout = async (nav, toast, userData) => {
@@ -14,6 +15,7 @@ export const AuthLogout = async (nav, toast, userData) => {
 };
 export const loginToServer = async (nav, toast, userData) => {
   try {
+    console.log("here ");
     const loginUser = await axios.post("http://localhost:3000/users/login", {
       userLoginInfo: userData,
     });
@@ -39,12 +41,9 @@ export const RegisterUserToServer = async (
   userData
 ) => {
   try {
-    const RegisterUser = await axios.patch(
-      "http://localhost:3000/users/register",
-      {
-        userRegisterInfo: userData,
-      }
-    );
+    const RegisterUser = await api.patch("http://localhost:3000/users/register", {
+      userRegisterInfo: userData,
+    });
     console.log(RegisterUser);
     // toast.success("User register Successfully");
     handleLoginClick();

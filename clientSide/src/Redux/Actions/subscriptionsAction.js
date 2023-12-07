@@ -1,3 +1,4 @@
+import api from "../../apiConfig";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -31,7 +32,7 @@ const deleteSubscription = (subscriptionId) => ({
 export const loadSubscriptions = (jwtToken) => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const resp = await axios.get(url, {
+    const resp = await  axios.get(url, {
       headers: {
         "jwt-access-token": jwtToken,
       },
@@ -48,7 +49,7 @@ export const loadSubscriptions = (jwtToken) => async (dispatch) => {
 
 export const addSubscriptions = (jwtToken, subscriptionObj) => async (dispatch) => {
   try {
-    const resp = await axios.post(url, subscriptionObj, {
+    const resp = await  axios.post(url, subscriptionObj, {
       headers: {
         "jwt-access-token": jwtToken,
       },
@@ -64,7 +65,7 @@ export const addSubscriptions = (jwtToken, subscriptionObj) => async (dispatch) 
 export const updateSubscriptions =(jwtToken, subscriptionId,status, movieObj) => async (dispatch) => {
     try {
       //status can me "add" movie to subscription or "cancle"
-      const resp = await axios.patch(`${url}/${subscriptionId}/${status}`, movieObj, {
+      const resp = await  axios.patch(`${url}/${subscriptionId}/${status}`, movieObj, {
         headers: {
           "jwt-access-token": jwtToken,
         },
@@ -79,7 +80,7 @@ export const updateSubscriptions =(jwtToken, subscriptionId,status, movieObj) =>
 
 export const deleteSubscriptions = (jwtToken, subscriptionId) => async (dispatch) => {
   try {
-    const resp = await axios.delete(`${url}/${subscriptionId}`, {
+    const resp = await  axios.delete(`${url}/${subscriptionId}`, {
       headers: {
         "jwt-access-token": jwtToken,
       },
