@@ -16,7 +16,10 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 gatewayApp.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 gatewayApp.use(express.json());
 
-gatewayApp.use(cors());
+gatewayApp.use(cors({
+  origin:"http://localhost:5173" , 
+  credentials:true,
+}));
 
 gatewayApp.use(
   session({

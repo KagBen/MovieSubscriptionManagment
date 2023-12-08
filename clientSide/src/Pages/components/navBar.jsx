@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Button,
 } from "@mui/material";
+
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import SlideshowIcon from "@mui/icons-material/Slideshow";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
@@ -174,6 +175,7 @@ const NavBar = ({ timeRemaining }) => {
             Logout
           </Button>
           <Button
+           
             endIcon={<SettingsOutlinedIcon />}
             sx={{ textTransform: "none" }}
           >

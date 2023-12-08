@@ -31,7 +31,7 @@ const deleteUser = (userId) => ({
 export const loadUsers = () => async (dispatch) => {
   dispatch(setLoading(true));
   try {
-    const resp = await axios.get(url);
+    const resp = await axios.get(url,{withCredentials: true});
     const usersData = resp.data.users;
     dispatch(setUsers(usersData));
     toast.success(resp.data.message);
@@ -48,7 +48,7 @@ export const addUsers = (jwtToken, userObj) => async (dispatch) => {
     const resp = await axios.post(`${url}/addUser`, userObj, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const newUserData = resp.data.user;
     dispatch(addUser(newUserData));
@@ -63,7 +63,7 @@ export const updateUsers = (jwtToken, userId, userObj) => async (dispatch) => {
     const resp = await axios.patch(`${url}/${userId}`, userObj, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const updateUserData = resp.data.user;
     dispatch(updateUser(updateUserData));
@@ -78,7 +78,7 @@ export const deleteUsers = (jwtToken, userId) => async (dispatch) => {
     const resp = await axios.delete(`${url}/${userId}`, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const userDeleted = resp.data.userId;
     dispatch(deleteUser(userDeleted));
