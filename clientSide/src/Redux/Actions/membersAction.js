@@ -37,7 +37,7 @@ export const loadMembers = (jwtToken) => async (dispatch) => {
     const resp = await axios.get(url, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },  withCredentials: true,
     });
     const membersData = resp.data.members;
     dispatch(setMember(membersData));
@@ -54,7 +54,7 @@ export const addMembers = (jwtToken, memberObj) => async (dispatch) => {
     const resp = await axios.post(url, memberObj, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const newMemberData = resp.data.member;
     dispatch(addMember(newMemberData));
@@ -72,7 +72,7 @@ export const updateMembers =
       const resp = await axios.patch(`${url}/${memberId}`, memberObj, {
         headers: {
           "jwt-access-token": jwtToken,
-        },
+        },withCredentials: true,
       });
 
       const updateMemberData = resp.data.member;
@@ -88,7 +88,7 @@ export const deleteMembers = (jwtToken, memberId) => async (dispatch) => {
     const resp = await axios.delete(`${url}/${memberId}`, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const memberDeleted = resp.data.memberId;
     dispatch(deleteMember(memberDeleted));

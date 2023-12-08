@@ -35,7 +35,7 @@ export const loadSubscriptions = (jwtToken) => async (dispatch) => {
     const resp = await  axios.get(url, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const subscriptionsData = resp.data.allSubscriptions;
     dispatch(setSubscription(subscriptionsData));
@@ -52,7 +52,7 @@ export const addSubscriptions = (jwtToken, subscriptionObj) => async (dispatch) 
     const resp = await  axios.post(url, subscriptionObj, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const newSubscriptionData = resp.data.subscription;
     dispatch(addSubscription(newSubscriptionData));
@@ -68,7 +68,7 @@ export const updateSubscriptions =(jwtToken, subscriptionId,status, movieObj) =>
       const resp = await  axios.patch(`${url}/${subscriptionId}/${status}`, movieObj, {
         headers: {
           "jwt-access-token": jwtToken,
-        },
+        },withCredentials: true,
       });
       const updateSubscriptionData = resp.data.subscription;
       dispatch(updateSubscription(updateSubscriptionData ));
@@ -83,7 +83,7 @@ export const deleteSubscriptions = (jwtToken, subscriptionId) => async (dispatch
     const resp = await  axios.delete(`${url}/${subscriptionId}`, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const subscriptionDeleted = resp.data.subscriptionId;
     dispatch(deleteSubscription(subscriptionDeleted));

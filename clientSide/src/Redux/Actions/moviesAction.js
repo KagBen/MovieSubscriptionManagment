@@ -35,7 +35,7 @@ export const loadMovies = (jwtToken) => async (dispatch) => {
     const resp = await  axios.get(url, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const moviesData = resp.data.movies;
     dispatch(setMovies(moviesData));
@@ -52,7 +52,7 @@ export const addMovies = (jwtToken, movieObj) => async (dispatch) => {
     const resp = await  axios.post(url, movieObj, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const newMovieData = resp.data.movie;
     dispatch(addMovie(newMovieData));
@@ -67,7 +67,7 @@ export const updateMovies =(jwtToken, movieId, movieObj) => async (dispatch) => 
       const resp = await  axios.patch(`${url}/${movieId}`, movieObj, {
         headers: {
           "jwt-access-token": jwtToken,
-        },
+        },withCredentials: true,
       });
       const updateMovieData = resp.data.movie;
       dispatch(updateMovie(updateMovieData));
@@ -82,7 +82,7 @@ export const deleteMovies = (jwtToken, movieId) => async (dispatch) => {
     const resp = await  axios.delete(`${url}/${movieId}`, {
       headers: {
         "jwt-access-token": jwtToken,
-      },
+      },withCredentials: true,
     });
     const movieDeleted = resp.data.movieId;
     dispatch(deleteMovie(movieDeleted));
