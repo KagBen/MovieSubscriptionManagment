@@ -29,7 +29,6 @@ const MoviesPage = () => {
           <Box sx={{ alignSelf: "center", width: "95%" }}>
             <TableDataGrid allMovies={allMovies} />
           </Box>
-            
         </Stack>
       </Box>
     </>
