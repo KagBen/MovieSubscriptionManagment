@@ -51,14 +51,8 @@ const MainPage = () => {
             60000
           }
         />
-        <Box sx={{ flexGrow: "0.95", backgroundColor: "primary.main" }}>
-          <button  onClick={async () => {
-              const userData = await axios.get("http://localhost:3000/users", {
-                withCredentials: true,
-              });
-              console.log(userData.data);
-            }}>Click</button>
-          <Outlet />
+        <Box sx={{ flexGrow: "0.95", backgroundColor: "primary.main" , py:"10px" }}>
+          <Outlet/>
         </Box>
       </Stack>
     </>
